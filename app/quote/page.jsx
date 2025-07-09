@@ -262,7 +262,7 @@ const RequestQuote = () => {
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-gray-300 mb-2">Length (cm)</label>
+              <label className="block text-gray-300 mb-2">Length (m)</label>
               <input
                 type="number"
                 value={formData.customDimensions.length}
@@ -272,7 +272,7 @@ const RequestQuote = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-2">Width (cm)</label>
+              <label className="block text-gray-300 mb-2">Width (m)</label>
               <input
                 type="number"
                 value={formData.customDimensions.width}
@@ -282,7 +282,7 @@ const RequestQuote = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-2">Height (cm)</label>
+              <label className="block text-gray-300 mb-2">Height (m)</label>
               <input
                 type="number"
                 value={formData.customDimensions.height}
@@ -373,9 +373,9 @@ const RequestQuote = () => {
           <div>
             <h3 className="text-xl font-semibold text-white mb-2">Dimensions</h3>
             <div className="text-gray-300 space-y-1">
-              <p>Length: {formData.customDimensions.length || 'Not specified'} cm</p>
-              <p>Width: {formData.customDimensions.width || 'Not specified'} cm</p>
-              <p>Height: {formData.customDimensions.height || 'Not specified'} cm</p>
+              <p>Length: {formData.customDimensions.length || 'Not specified'} m</p>
+              <p>Width: {formData.customDimensions.width || 'Not specified'} m</p>
+              <p>Height: {formData.customDimensions.height || 'Not specified'} m</p>
               <p>Scale: {formData.customDimensions.scale || 'Not specified'}</p>
             </div>
           </div>

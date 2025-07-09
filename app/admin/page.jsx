@@ -132,7 +132,7 @@ const Admin = () => {
                   <td className="p-2">{quote.name}</td>
                   <td className="p-2">{quote.email}</td>
                   <td className="p-2">
-                    {quote.length || 'N/A'} × {quote.width || 'N/A'} × {quote.height || 'N/A'} cm<br />
+                    {quote.length || 'N/A'} × {quote.width || 'N/A'} × {quote.height || 'N/A'} m<br />
                     Scale: {quote.scale || 'N/A'}
                   </td>
                   <td className="p-2">{formatDate(quote.created_at)}</td>

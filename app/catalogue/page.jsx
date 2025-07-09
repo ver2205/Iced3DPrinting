@@ -101,7 +101,7 @@ const Catalogue = () => {
             const translation = ship.ship_translations?.find(t => t.language === 'en');
             const title = translation?.title || ship.slug || 'Untitled Ship';
             const description = translation?.description || 'No description available';
-            const dimensions = `${ship.length} × ${ship.width} × ${ship.height} cm`;
+            const dimensions = `${ship.length} × ${ship.width} × ${ship.height} m`;
 
             return (
               <div

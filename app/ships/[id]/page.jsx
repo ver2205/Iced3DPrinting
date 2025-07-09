@@ -48,9 +48,9 @@ export default function ShipPage() {
           alt: img.alt_text
         })) || [],
         dimensions: {
-          length: `${data.length} cm`,
-          width: `${data.width} cm`,
-          height: `${data.height} cm`,
+          length: `${data.length} m`,
+          width: `${data.width} m`,
+          height: `${data.height} m`,
           scale: data.scale || '1:100'
         },
         features: [
