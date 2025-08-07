@@ -3,6 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import {
+  Ship,
+  Ruler,
+  Puzzle,
+  User,
+  ClipboardList,
+  FileText
+} from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 // Supabase init
 const supabase = createClient(
@@ -16,11 +26,16 @@ const RequestQuote = () => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
       selectedShip: '',
-      customDimensions: {
-        length: '',
-        width: '',
-        height: '',
-        scale: ''
+      scale: '',
+      customDesign: {
+        hasDrawings: '',
+        shipName: '',
+        buildOff: '',
+        hasRC: '',
+        hasPictures: '',
+        isSailing: '',
+        buildOff: '',
+        caseCover: ''
       },
       contactInfo: {
         name: '',
@@ -64,15 +79,31 @@ const RequestQuote = () => {
 
 
     
-    const steps = [
-      { number: 1, title: "Select Ship", description: "Choose a base model or custom design" },
-      { number: 2, title: "Dimensions", description: "Specify size and scale requirements" },
-      { number: 3, title: "Contact Info", description: "Provide your contact details" },
-      { number: 4, title: "Summary", description: "Review and submit your request" }
-    ];
-  
+    const getSteps = () => {
+      const baseSteps = [
+        { number: 1, title: "Select Ship", description: "Choose a base model or custom design",icon: <Ship size={20} /> ,  illustration: "🚢"}
+      ];
+      if (formData.selectedShip === "Custom Design") {
+        return [
+          ...baseSteps,
+          { number: 2, title: "Custom Details", description: "Select preferred scale", icon: <Ruler size={20} />,  illustration: "📐" },
+          { number: 3, title: "Custom Details", description: "Answer design questions", icon: <Puzzle size={20} />,  illustration: "⚙️" },
+          { number: 4, title: "Contact Info", description: "Your contact details", icon: <User size={20} />,  illustration: "👤" },
+          { number: 5, title: "Summary", description: "Review and submit", icon: <ClipboardList size={20} />, illustration: "📋" }
+        ];
+      } else {
+        return [
+          ...baseSteps,
+          { number: 2, title: "Scale", description: "Select preferred scale", icon: <Ruler size={20} /> ,  illustration: "📐"},
+          { number: 3, title: "Contact Info", description: "Your contact details", icon: <User size={20} />,  illustration: "👤" },
+          { number: 4, title: "Summary", description: "Review and submit", icon: <ClipboardList size={20} />, illustration: "📋" }
+        ];
+      }
+    };
+    const steps = getSteps();
+    const maxSteps = steps.length;
     const nextStep = () => {
-      if (currentStep < 4) setCurrentStep(currentStep + 1);
+      if (currentStep < maxSteps) setCurrentStep(currentStep + 1);
     };
   
     const prevStep = () => {
@@ -99,21 +130,23 @@ const RequestQuote = () => {
     useEffect(() => {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth' // optional: makes the scroll animated
+        behavior: 'smooth' 
       });
     }, [currentStep]);
     
 
     useEffect(() => {
-  if (successMessage) {
-    const timer = setTimeout(() => {
-      setSuccessMessage(null);
-    }, 3000); // 5000 ms = 5 seconds
+      if (successMessage) {
+        const timer = setTimeout(() => {
+          setSuccessMessage(null);
+        }, 3000); // 5000 ms = 5 seconds
 
-    return () => clearTimeout(timer); // Cleanup on unmount or if successMessage changes
-  }
-}, [successMessage]);
+        return () => clearTimeout(timer); // Cleanup on unmount or if successMessage changes
+      }
+    }, [successMessage]);
+
     const handleSubmit = async () => {
+      
       // Basic validation
       if (!formData.contactInfo.name || !formData.contactInfo.email) {
        
@@ -122,6 +155,7 @@ const RequestQuote = () => {
         return;
       }
       setLoading(true);
+      const isCustom = formData.selectedShip === 'Custom Design';
 
       // Insert into Supabase
       const { data, error } = await supabase
@@ -129,16 +163,24 @@ const RequestQuote = () => {
         .insert([
           {
             selected_ship: formData.selectedShip,
-            length: formData.customDimensions.length || null,
-            width: formData.customDimensions.width || null,
-            height: formData.customDimensions.height || null,
-            scale: formData.customDimensions.scale || null,
+            scale: formData.scale || null,
             name: formData.contactInfo.name,
             email: formData.contactInfo.email,
-            notes: formData.additionalNotes || null
+            notes: formData.additionalNotes || null,
+            custom_ship_name:          isCustom ? formData.customDesign.shipName      || null : null,
+            has_technical_draws: isCustom ? formData.customDesign.hasDrawings   === 'yes' : null,
+            is_still_sailing:       isCustom ? formData.customDesign.isSailing     === 'yes' : null,
+            has_photos:             isCustom ? formData.customDesign.hasPictures   === 'yes' : null,
+            rc_model:               isCustom ? formData.customDesign.hasRC         === 'yes' : null,
+            build_ready:            isCustom ? formData.customDesign.buildOff      === 'yes' : null,
+            case_cover:             isCustom ? formData.customDesign.caseCover     === 'yes' : null
           }
         ]);
-    
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
       if (error) {
         console.error("Submission error:", error);
         setSuccessMessage('Something went wrong. Please try again.');
@@ -151,11 +193,16 @@ const RequestQuote = () => {
         setCurrentStep(1);
         setFormData({
           selectedShip: '',
-          customDimensions: {
-            length: '',
-            width: '',
-            height: '',
-            scale: ''
+          scale: '',
+          customDesign: {
+            hasDrawings: '',
+            shipName: '',
+            buildOff: '',
+            hasRC: '',
+            hasPictures: '',
+            isSailing: '',
+            buildOff: '',
+            caseCover: ''
           },
           contactInfo: {
             name: '',
@@ -169,11 +216,19 @@ const RequestQuote = () => {
 
     };
     
+    // Scale selector for EXISTING ships
+
   
     const renderStep1 = () => {
       return (
-        <div>
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Select a Ship Model</h2>
+        <div className="animate-fade-in">
+        <div className="text-center mb-12">
+        <div className="flex justify-center mb-4">
+  <Ship className="text-slate-400" size={48} />
+</div>
+          <h2 className="text-3xl font-bold text-white mb-4">Select a Ship Model</h2>
+          <p className="text-gray-300 text-lg">Choose from our collection or create a custom design</p>
+        </div>
     
           {/* Search bar */}
           <div className="mb-6 max-w-md mx-auto">
@@ -210,23 +265,24 @@ const RequestQuote = () => {
               <div
                 key={ship.id}
                 onClick={() => updateFormData(null, 'selectedShip', ship.slug)}
-                className={`p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${
+                className={`p-6 rounded-2xl border-2 cursor-pointer transform transition-transform duration-300 hover:scale-105 ${
                   formData.selectedShip === ship.slug
                     ? 'border-slate-400 bg-slate-800/70'
                     : 'border-gray-600 bg-gray-800/30 hover:border-gray-500'
                 }`}
+                
               >
-{ship.ship_images?.[0]?.image_url ? (
-  <img
-    src={ship.ship_images[0].image_url}
-    alt={ship.ship_images[0].alt_text || ship.slug}
-    className="w-full h-40 object-cover rounded-lg mb-4"
-  />
-) : (
-  <div className="w-full h-40 bg-gray-700/50 rounded-lg mb-4 flex items-center justify-center">
-    <span className="text-gray-400 text-lg">{ship.slug}</span>
-  </div>
-)}
+          {ship.ship_images?.[0]?.image_url ? (
+            <img
+              src={ship.ship_images[0].image_url}
+              alt={ship.ship_images[0].alt_text || ship.slug}
+              className="w-full h-40 object-cover rounded-lg mb-4"
+            />
+          ) : (
+            <div className="w-full h-40 bg-gray-700/50 rounded-lg mb-4 flex items-center justify-center">
+              <span className="text-gray-400 text-lg">{ship.slug}</span>
+            </div>
+          )}
 
               
                 <h3 className="text-xl font-semibold text-white text-center">{ship.slug}</h3>
@@ -236,14 +292,17 @@ const RequestQuote = () => {
             {/* Custom Design */}
             <div
               onClick={() => updateFormData(null, 'selectedShip', 'Custom Design')}
-              className={`p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${
+              className={`p-6 rounded-2xl border-2 cursor-pointer transform transition-transform duration-300 hover:scale-105 ${
                 formData.selectedShip === 'Custom Design'
                   ? 'border-slate-400 bg-slate-800/70'
                   : 'border-gray-600 bg-gray-800/30 hover:border-gray-500'
               }`}
             >
               <div className="w-full h-40 bg-gray-700/50 rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-lg">Custom Design</span>
+              <div className="flex flex-col items-center text-gray-300">
+                <Puzzle size={28} className="mb-2" />
+                <span className="text-lg">Custom Design</span>
+              </div>
               </div>
               <h3 className="text-xl font-semibold text-white text-center">Custom Design</h3>
             </div>
@@ -254,50 +313,103 @@ const RequestQuote = () => {
     };
     
     
-    
+    const renderScaleStep = () => (
+      <div className="animate-fade-in">
+      <div className="text-center mb-12">
+      <div className="flex justify-center mb-4">
+  <Ruler className="text-slate-400" size={48} />
+</div>
+        <h2 className="text-3xl font-bold text-white mb-4">Choose Your Scale</h2>
+        <p className="text-gray-300 text-lg">Select the perfect size for your model</p>
+      </div>
+      
+      <div className="max-w-2xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {['1:50', '1:75', '1:100', '1:150', 'custom'].map((scale, index) => (
+            <div
+              key={scale}
+              onClick={() => updateFormData(null, 'scale', scale)}
+              className={`p-6 rounded-xl cursor-pointer transition-all duration-300 hover-scale ${
+                formData.scale === scale
+                  ? 'bg-gray-700 text-white shadow-lg shadow-gray-700/25'
+                  : 'bg-gray-800/70 text-gray-300 hover:bg-gray-700/70 border border-gray-600'
+              }`}
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="text-center">
+                <Ruler className="mx-auto mb-2" size={24} />
+                <span className="font-medium">{scale === 'custom' ? 'Custom' : scale}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   
-    const renderStep2 = () => (
-      <div>
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Custom Dimensions</h2>
-        <div className="max-w-2xl mx-auto space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-gray-300 mb-2">Length (m)</label>
-              <input
-                type="number"
-                value={formData.customDimensions.length}
-                onChange={(e) => updateFormData('customDimensions', 'length', e.target.value)}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
-                placeholder="85"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-300 mb-2">Width (m)</label>
-              <input
-                type="number"
-                value={formData.customDimensions.width}
-                onChange={(e) => updateFormData('customDimensions', 'width', e.target.value)}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
-                placeholder="25"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-300 mb-2">Height (m)</label>
-              <input
-                type="number"
-                value={formData.customDimensions.height}
-                onChange={(e) => updateFormData('customDimensions', 'height', e.target.value)}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
-                placeholder="70"
-              />
-            </div>
+    );
+  
+    const renderStep2Custom = () => (
+      <div className="animate-fade-in">
+        <div className="text-center mb-12">
+        <div className="flex justify-center mb-4">
+          <Ruler className="text-slate-400" size={48} />
+        </div>         
+          <h2 className="text-3xl font-bold text-white mb-4">Custom Design Details</h2>
+          <p className="text-gray-300 text-lg">Tell us about your vision</p>
+        </div>
+  
+        <div className="max-w-2xl mx-auto space-y-8">
+          <div className="animate-slide-in-right">
+            <label className="block text-gray-300 mb-3 text-lg font-medium">Ship Name</label>
+            <input
+              type="text"
+              value={formData.customDesign.shipName}
+              onChange={(e) => updateFormData('customDesign', 'shipName', e.target.value)}
+              className="w-full px-4 py-3 bg-gray-800/70 border border-gray-600 rounded-xl text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
+              placeholder="Enter the name of your ship..."
+            />
           </div>
-          <div>
-            <label className="block text-gray-300 mb-2">Preferred Scale</label>
+  
+          {[
+            ['hasRC', 'Do you want it to have RC (remote controlled)?'],
+            ['buildOff', 'Do you want it to be built off?'],
+          ].map(([key, label], index) => {
+            const value = formData.customDesign[key];
+            
+            return (
+              <div key={key} className="animate-slide-in-right" style={{ animationDelay: `${(index + 1) * 200}ms` }}>
+                <label className="block text-gray-300 mb-4 text-lg font-medium">{label}</label>
+                <div className="flex border border-gray-600 rounded-xl overflow-hidden bg-gray-800/50">
+                  {/* YES option */}
+        <div
+          onClick={() => updateFormData('customDesign', key, 'yes')}
+          className={`w-1/2 flex items-center justify-center cursor-pointer transition-all duration-200 ${
+            value === 'yes' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
+          }`}
+        >
+          Yes
+        </div>
+
+        {/* NO option */}
+        <div
+          onClick={() => updateFormData('customDesign', key, 'no')}
+          className={`w-1/2 flex items-center justify-center cursor-pointer transition-all duration-200 ${
+            value === 'no' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
+          } border-l border-gray-600`}
+        >
+          No
+        </div>
+                </div>
+              </div>
+            );
+          })}
+          
+          <div className="animate-slide-in-right" style={{ animationDelay: '600ms' }}>
+            <label className="block text-gray-300 mb-3 text-lg font-medium">Preferred Scale</label>
             <select
-              value={formData.customDimensions.scale}
-              onChange={(e) => updateFormData('customDimensions', 'scale', e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
+              value={formData.scale}
+              onChange={(e) => updateFormData(null, 'scale', e.target.value)}
+              className="w-full px-4 py-3 bg-gray-800/70 border border-gray-600 rounded-xl text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
             >
               <option value="">Select scale</option>
               <option value="1:50">1:50</option>
@@ -311,9 +423,67 @@ const RequestQuote = () => {
       </div>
     );
   
-    const renderStep3 = () => (
+    const renderCustomDesignQuestions = () => (
       <div>
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Contact Information</h2>
+    <div className="text-center mb-12">
+        <div className="flex justify-center mb-4">
+          <Puzzle className="text-slate-400" size={48} />
+        </div>         
+          <h2 className="text-3xl font-bold text-white mb-4">Additional Details</h2>
+          <p className="text-gray-300 text-lg">Help us create the perfect model</p>
+        </div>          
+         <div className="max-w-2xl mx-auto space-y-6">
+                {[
+          ['hasDrawings', 'Do you have technical drawings?'],
+          ['isSailing', 'Is the ship still sailing?'],
+          ['hasPictures', 'Are there pictures available?'],
+          ['caseCover', 'Do you want a case cover?']
+        ].map(([key, label]) => {
+          const value = formData.customDesign[key];
+
+  return (
+    <div key={key} className="mb-6">
+      <label className="block text-gray-300 mb-2 text-lg">{label}</label>
+      <div className="flex border border-gray-600 rounded-lg overflow-hidden text-white text-center text-lg">
+        {/* YES option */}
+        <div
+          onClick={() => updateFormData('customDesign', key, 'yes')}
+          className={`w-1/2 flex items-center justify-center cursor-pointer transition-all duration-200 ${
+            value === 'yes' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
+          }`}
+        >
+          Yes
+        </div>
+
+        {/* NO option */}
+        <div
+          onClick={() => updateFormData('customDesign', key, 'no')}
+          className={`w-1/2 flex items-center justify-center cursor-pointer transition-all duration-200 ${
+            value === 'no' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
+          } border-l border-gray-600`}
+        >
+          No
+        </div>
+      </div>
+    </div>
+  );
+})}
+
+    
+         
+        </div>
+      </div>
+    );
+
+    const renderContactStep = () => (
+      <div>
+        <div className="text-center mb-12">
+        <div className="flex justify-center mb-4">
+          <User className="text-slate-400" size={48} />
+        </div>         
+          <h2 className="text-3xl font-bold text-white mb-4">Contact Information</h2>
+          <p className="text-gray-300 text-lg">Let's get your project started</p>
+        </div>
         <div className="max-w-2xl mx-auto space-y-6">
           <div>
             <label className="block text-gray-300 mb-2">Full Name *</label>
@@ -361,28 +531,41 @@ const RequestQuote = () => {
       </div>
     );
   
+    
+    
     const renderStep4 = () => (
-      <div>
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Review Your Request</h2>
-        <div className="max-w-2xl mx-auto bg-gray-800/50 rounded-2xl p-8 space-y-6">
-          <div>
-            <h3 className="text-xl font-semibold text-white mb-2">Selected Ship</h3>
-            <p className="text-gray-300">{formData.selectedShip || 'Not selected'}</p>
+      <div className="animate-fade-in">
+        <div className="text-center mb-12">
+        <div className="flex justify-center mb-4">
+          <ClipboardList className="text-slate-400" size={48} />
+        </div> 
+          <h2 className="text-3xl font-bold text-white mb-4">Review Your Request</h2>
+          <p className="text-gray-300 text-lg">Everything looks good? Let's set sail!</p>
+        </div>
+  
+        <div className="max-w-2xl mx-auto bg-gradient-to-br from-gray-800/70 to-gray-900/70 rounded-2xl p-8 space-y-6 border border-gray-600 backdrop-blur-sm">
+          <div className="animate-slide-in-right">
+            <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+              <Ship className="mr-2" size={20} />
+              Selected Ship
+            </h3>
+            <p className="text-gray-300 pl-7">{formData.selectedShip || 'Not selected'}</p>
           </div>
           
-          <div>
-            <h3 className="text-xl font-semibold text-white mb-2">Dimensions</h3>
-            <div className="text-gray-300 space-y-1">
-              <p>Length: {formData.customDimensions.length || 'Not specified'} m</p>
-              <p>Width: {formData.customDimensions.width || 'Not specified'} m</p>
-              <p>Height: {formData.customDimensions.height || 'Not specified'} m</p>
-              <p>Scale: {formData.customDimensions.scale || 'Not specified'}</p>
-            </div>
+          <div className="animate-slide-in-right" style={{ animationDelay: '150ms' }}>
+            <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+              <Ruler className="mr-2" size={20} />
+              Scale
+            </h3>
+            <p className="text-gray-300 pl-7">{formData.scale || 'Not specified'}</p>
           </div>
           
-          <div>
-            <h3 className="text-xl font-semibold text-white mb-2">Contact Information</h3>
-            <div className="text-gray-300 space-y-1">
+          <div className="animate-slide-in-right" style={{ animationDelay: '300ms' }}>
+            <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+              <User className="mr-2" size={20} />
+              Contact Information
+            </h3>
+            <div className="text-gray-300 space-y-1 pl-7">
               <p>Name: {formData.contactInfo.name}</p>
               <p>Email: {formData.contactInfo.email}</p>
               <p>Phone: {formData.contactInfo.phone || 'Not provided'}</p>
@@ -390,9 +573,12 @@ const RequestQuote = () => {
           </div>
           
           {formData.additionalNotes && (
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-2">Additional Notes</h3>
-              <p className="text-gray-300">{formData.additionalNotes}</p>
+            <div className="animate-slide-in-right" style={{ animationDelay: '450ms' }}>
+              <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+                <FileText className="mr-2" size={20} />
+                Additional Notes
+              </h3>
+              <p className="text-gray-300 pl-7">{formData.additionalNotes}</p>
             </div>
           )}
         </div>
@@ -401,34 +587,31 @@ const RequestQuote = () => {
   
     return (
       <div className="min-h-screen bg-gray-900">
-    
-
-        
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {successMessage && (
-  <div className="fixed top-16 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 text-center px-4 py-2 rounded-lg shadow-lg max-w-sm w-auto z-50">
-  {successMessage}
-</div>
-)}
+          <div className="fixed top-16 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 text-center px-4 py-2 rounded-lg shadow-lg max-w-sm w-auto z-50">
+          {successMessage}
+        </div>
+        )}
           {/* Progress Steps */}
           <div className="mb-12">
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8">
               {steps.map((step) => (
                 <div key={step.number} className="flex items-center">
                   <div className={`flex flex-col items-center ${step.number <= currentStep ? 'text-white' : 'text-gray-500'}`}>
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
                       step.number < currentStep 
                         ? 'bg-slate-600 text-white' 
                         : step.number === currentStep
                         ? 'bg-slate-700 text-white'
                         : 'bg-gray-700 text-gray-400'
                     }`}>
-                      {step.number < currentStep ? <Check size={20} /> : step.number}
+                      {step.number < currentStep ? <Check size={20} /> : step.icon}
                     </div>
                     <span className="text-sm font-medium text-center">{step.title}</span>
                   </div>
-                  {step.number < 4 && (
-                  <div className={`hidden sm:block w-16 h-0.5 mx-4 ${step.number < currentStep ? 'bg-slate-600' : 'bg-gray-700'}`}></div>
+                  {step.number < maxSteps && (
+                  <div className={`hidden sm:block w-10 h-0.5 mx-4 ${step.number < currentStep ? 'bg-slate-600' : 'bg-gray-700'}`}></div>
                   )}
                 </div>
               ))}
@@ -436,11 +619,34 @@ const RequestQuote = () => {
           </div>
   
           {/* Step Content */}
-          <div className="mb-12">
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
+          <div className="mb-12 relative min-h-[400px]">
+          <AnimatePresence mode="wait">
+    <motion.div
+      key={currentStep}
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }}
+      transition={{ duration: 0.4 }}
+      className="w-full"
+      layout
+    >
+          {currentStep === 1 && renderStep1()}
+          
+
+        {formData.selectedShip === 'Custom Design' && currentStep === 2 && renderStep2Custom()}
+        {formData.selectedShip !== 'Custom Design' && currentStep === 2 && renderScaleStep()}
+
+        {formData.selectedShip === 'Custom Design' && currentStep === 3 && renderCustomDesignQuestions()}
+        {formData.selectedShip !== 'Custom Design' && currentStep === 3 && renderContactStep()}
+
+        {formData.selectedShip === 'Custom Design' && currentStep === 4 && renderContactStep()}
+        {formData.selectedShip !== 'Custom Design' && currentStep === 4 && renderStep4()}
+
+        {formData.selectedShip === 'Custom Design' && currentStep === 5 && renderStep4()}
+
+
+        </motion.div>
+  </AnimatePresence>
           </div>
   
           {/* Navigation Buttons */}
@@ -458,7 +664,7 @@ const RequestQuote = () => {
               Previous
             </button>
   
-            {currentStep < 4 ? (
+            {currentStep < maxSteps ? (
             <button
               onClick={nextStep}
               className="flex items-center bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
@@ -474,7 +680,14 @@ const RequestQuote = () => {
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
-              {loading ? 'Submitting...' : 'Submit Request'}
+                 {loading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Launching...
+                </div>
+              ) : (
+                'Launch Request'
+              )}
             </button>
             )}
           

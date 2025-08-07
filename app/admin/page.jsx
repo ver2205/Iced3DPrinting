@@ -14,6 +14,7 @@ const Admin = () => {
   const [quotes, setQuotes] = useState([]);
   const [authorized, setAuthorized] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
+  const [filter, setFilter] = useState('custom'); // 'all' | 'custom' | 'existing'
 
   useEffect(() => {
     const savedAuth = localStorage.getItem('admin_auth');
@@ -54,7 +55,12 @@ const Admin = () => {
       setQuotes(withStatus);
     }
   };
-
+  const filteredQuotes = quotes.filter(q => {
+    if (filter === 'custom') return q.selected_ship === 'Custom Design';
+    if (filter === 'existing') return q.selected_ship !== 'Custom Design';
+    return true;
+  });
+  
   const handleStatusChange = async (quoteId, newStatus) => {
     console.log(`Updating quote ${quoteId} to status ${newStatus}`);
     
@@ -109,51 +115,129 @@ const Admin = () => {
           <h2 className="text-2xl font-semibold">All Quote Requests</h2>
           <div className="text-gray-400">Total: {quotes.length} requests</div>
         </div>
+      <div className="mb-4 flex gap-4">
+          {/* <button
+            onClick={() => setFilter('all')}
+            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+          >
+            All
+          </button> */}
+          <button
+            onClick={() => setFilter('custom')}
+            className={`px-4 py-2 rounded ${filter === 'custom' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+          >
+            Custom Designs
+          </button>
+          <button
+            onClick={() => setFilter('existing')}
+            className={`px-4 py-2 rounded ${filter === 'existing' ? 'bg-blue-700 text-white' : 'bg-gray-700 text-gray-300'}`}
+          >
+            Existing Ships
+          </button>
+    </div>
 
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-700">
-            <thead>
-              <tr className="border-b border-gray-700">
-                <th className="p-2 text-left">ID</th>
-                <th className="p-2 text-left">Ship Model</th>
-                <th className="p-2 text-left">Customer</th>
-                <th className="p-2 text-left">Email</th>
-                <th className="p-2 text-left">Dimensions</th>
-                <th className="p-2 text-left">Date</th>
-                <th className="p-2 text-left">Status</th>
-                <th className="p-2 text-left">Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {quotes.map((quote) => (
-                <tr key={quote.id} className="border-b border-gray-700 hover:bg-gray-700/30">
-                  <td className="p-2">#{quote.id.slice(0, 8)}</td>
-                  <td className="p-2">{quote.selected_ship}</td>
-                  <td className="p-2">{quote.name}</td>
-                  <td className="p-2">{quote.email}</td>
-                  <td className="p-2">
-                    {quote.length || 'N/A'} × {quote.width || 'N/A'} × {quote.height || 'N/A'} m<br />
-                    Scale: {quote.scale || 'N/A'}
-                  </td>
-                  <td className="p-2">{formatDate(quote.created_at)}</td>
-                  <td className="p-2">
-                    <select
-                      value={quote.status || 'Received'}
-                      onChange={(e) => handleStatusChange(quote.id, e.target.value)}
-                      className={`rounded p-2 ${
-                        quote.status === 'Received'
-                          ? 'bg-yellow-600/30 text-yellow-300'
-                          : 'bg-green-600/30 text-green-300'
-                      }`}
-                    >
-                      <option value="Received" className="bg-gray-800 text-yellow-300">Received</option>
-                      <option value="Replied" className="bg-gray-800 text-green-300">Replied</option>
-                    </select>
-                  </td>
-                  <td className="p-2 max-w-xs">{quote.notes || 'N/A'}</td>
-                </tr>
-              ))}
-            </tbody>
+            
+          {filter === 'custom' ? (
+  <>
+    {/* Custom Design Table Head */}
+    <thead>
+      <tr className="border-b border-gray-700">
+        <th className="p-2 text-left">ID</th>
+        <th className="p-2 text-left">Ship Model</th>
+        <th className="p-2 text-left">Customer</th>
+        <th className="p-2 text-left">Email</th>
+        <th className="p-2 text-left">Scale</th>
+        <th className="p-2 text-left">Date</th>
+        <th className="p-2 text-left">Status</th>
+        <th className="p-2 text-left">Note</th>
+        <th className="p-2 text-left">Custom Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredQuotes.map((quote) => (
+        <tr key={quote.id} className="border-b border-gray-700 hover:bg-gray-800/30">
+          <td className="p-2">#{quote.id.slice(0, 8)}</td>
+          <td className="p-2">{quote.selected_ship}</td>
+          <td className="p-2">{quote.name}</td>
+          <td className="p-2">{quote.email}</td>
+          <td className="p-2">{quote.scale || 'N/A'}</td>
+          <td className="p-2">{formatDate(quote.created_at)}</td>
+          <td className="p-2">
+            <select
+              value={quote.status || 'Received'}
+              onChange={(e) => handleStatusChange(quote.id, e.target.value)}
+              className={`rounded p-2 ${
+                quote.status === 'Received'
+                  ? 'bg-yellow-600/30 text-yellow-300'
+                  : 'bg-green-600/30 text-green-300'
+              }`}
+            >
+              <option value="Received">Received</option>
+              <option value="Replied">Replied</option>
+            </select>
+          </td>
+          <td className="p-2">{quote.notes || 'N/A'}</td>
+
+          <td className="p-2 text-sm text-gray-300 space-y-1">
+            <p><strong>Ship Name:</strong> {quote.custom_ship_name || 'N/A'}</p>
+            <p><strong>Technical Drawings:</strong> {quote.has_technical_draws ? 'Yes' : 'No'}</p>
+            <p><strong>Still Sailing:</strong> {quote.is_still_sailing ? 'Yes' : 'No'}</p>
+            <p><strong>Photos:</strong> {quote.has_photos ? 'Yes' : 'No'}</p>
+            <p><strong>RC:</strong> {quote.rc_model ? 'Yes' : 'No'}</p>
+            <p><strong>Build-Off:</strong> {quote.build_ready ? 'Yes' : 'No'}</p>
+            <p><strong>Case Cover:</strong> {quote.case_cover ? 'Yes' : 'No'}</p>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </>
+) : (
+  <>
+    {/* Existing Ship Table Head */}
+    <thead>
+      <tr className="border-b border-gray-700">
+        <th className="p-2 text-left">ID</th>
+        <th className="p-2 text-left">Ship Model</th>
+        <th className="p-2 text-left">Customer</th>
+        <th className="p-2 text-left">Email</th>
+        <th className="p-2 text-left">Scale</th>
+        <th className="p-2 text-left">Date</th>
+        <th className="p-2 text-left">Note</th>
+        <th className="p-2 text-left">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredQuotes.map((quote) => (
+        <tr key={quote.id} className="border-b border-gray-700 hover:bg-gray-800/30">
+          <td className="p-2">#{quote.id.slice(0, 8)}</td>
+          <td className="p-2">{quote.selected_ship}</td>
+          <td className="p-2">{quote.name}</td>
+          <td className="p-2">{quote.email}</td>
+          <td className="p-2">{quote.scale || 'N/A'}</td>
+          <td className="p-2">{formatDate(quote.created_at)}</td>
+          <td className="p-2">{quote.notes || 'N/A'}</td>
+          <td className="p-2">
+            <select
+              value={quote.status || 'Received'}
+              onChange={(e) => handleStatusChange(quote.id, e.target.value)}
+              className={`rounded p-2 ${
+                quote.status === 'Received'
+                  ? 'bg-yellow-600/30 text-yellow-300'
+                  : 'bg-green-600/30 text-green-300'
+              }`}
+            >
+              <option value="Received">Received</option>
+              <option value="Replied">Replied</option>
+            </select>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </>
+)}
+
           </table>
         </div>
       </div>
