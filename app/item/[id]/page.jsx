@@ -109,8 +109,14 @@ export default function ShipPage() {
     fetchItem();
   }, [id, type]);
 
-  if (!item) return <div className="text-white p-10">Loading...</div>;
-
+  if (!item) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <p className="text-gray-400 text-lg">Loading details...</p>
+      </div>
+    );
+  }
+  
   return (
 
     <>

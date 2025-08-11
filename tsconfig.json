@@ -36,7 +36,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "components/ui/YachtAnimation.jsx"  ],
   "exclude": [
     "node_modules"
   ]

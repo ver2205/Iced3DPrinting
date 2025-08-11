@@ -39,10 +39,11 @@ const MediaCarousel = ({ media = [] }) => {
         {isVideo ? (
           <video
             src={current.url}
-            controls
+            muted
             autoPlay
             loop
-            muted
+            playsInline
+            controls={false}
             className="w-full h-auto max-h-[500px] object-contain rounded-2xl bg-black"
           />
         ) : (
