@@ -6,10 +6,9 @@ import { createClient } from '@supabase/supabase-js';
 import { Ship, Wrench } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+export const dynamic = 'force-dynamic'; 
+
+
 
 const PAGE_SIZE = 9;
 
@@ -27,6 +26,11 @@ export default function Catalogue() {
   const [pageParts, setPageParts] = useState(1);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
     async function fetchData() {
       const { data: catData } = await supabase.from('category').select('id, name');
       if (catData) setCategories(catData);
