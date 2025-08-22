@@ -1,19 +1,23 @@
+// components/Navbar.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { Suspense } from 'react';
+
+const SUPPORTED_LOCALES = ["en", "nl"];
+const DEFAULT_LOCALE = "en";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname() || "/en";
+  const pathname = usePathname() || "/";
   const router = useRouter();
 
-  // pull current locale from the first path segment
-  const locale = pathname.split("/")[1] || "en";
+  // Use only valid locales; otherwise fall back to default
+  const firstSeg = pathname.split("/")[1] || "";
+  const locale = SUPPORTED_LOCALES.includes(firstSeg) ? firstSeg : DEFAULT_LOCALE;
 
   const toggleMenu = () => setIsMenuOpen((v) => !v);
 
@@ -32,23 +36,17 @@ export default function Navbar() {
             </div>
           </button>
 
-          {/* Desktop Navigation */}
+          {/* Desktop nav */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 space-x-8">
-            <Link href={`/${locale}/catalogue`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
-              Catalogue
-            </Link>
-            <Link href={`/${locale}/process`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
-              Our Process
-            </Link>
-            <Link href={`/${locale}/contact`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
-              Contact
-            </Link>
+            <Link href={`/${locale}/catalogue`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">Catalogue</Link>
+            <Link href={`/${locale}/process`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">Our Process</Link>
+            <Link href={`/${locale}/contact`} className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">Contact</Link>
           </div>
 
-          {/* Language Switcher & CTA */}
+          {/* Lang + CTA */}
           <div className="hidden md:flex items-center space-x-4">
-          <Suspense fallback={null}>
-            <LanguageSwitcher locale={locale} />
+            <Suspense fallback={null}>
+              <LanguageSwitcher locale={locale} />
             </Suspense>
             <button
               onClick={() => router.push(`/${locale}/quote`)}
@@ -58,7 +56,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile */}
           <div className="md:hidden flex items-center space-x-2">
             <LanguageSwitcher locale={locale} />
             <button onClick={toggleMenu} className="text-gray-300 hover:text-white p-2">
@@ -67,19 +65,12 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800/50 rounded-lg mt-2">
-              <Link href={`/${locale}/catalogue`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">
-                Catalogue
-              </Link>
-              <Link href={`/${locale}/process`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">
-                Our Process
-              </Link>
-              <Link href={`/${locale}/contact`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">
-                Contact
-              </Link>
+              <Link href={`/${locale}/catalogue`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Catalogue</Link>
+              <Link href={`/${locale}/process`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Our Process</Link>
+              <Link href={`/${locale}/contact`} className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Contact</Link>
               <button
                 onClick={() => router.push(`/${locale}/quote`)}
                 className="w-full bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-full text-sm font-medium mt-4 transition-colors duration-200"
