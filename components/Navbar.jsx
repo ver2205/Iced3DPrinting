@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { Suspense } from 'react';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,7 +47,9 @@ export default function Navbar() {
 
           {/* Language Switcher & CTA */}
           <div className="hidden md:flex items-center space-x-4">
+          <Suspense fallback={null}>
             <LanguageSwitcher locale={locale} />
+            </Suspense>
             <button
               onClick={() => router.push(`/${locale}/quote`)}
               className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
