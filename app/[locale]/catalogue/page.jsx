@@ -1,35 +1,45 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter} from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { Ship, Wrench } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { getDictionaryClient } from '@/lib/getDictionaryClient';
 
+const ALL = '__ALL__'; 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-
 const PAGE_SIZE = 9;
 
-export default function Catalogue() {
+export default function CataloguePage() {
   const router = useRouter();
- 
+  const pathname = usePathname() || '/en';
+  const locale = (pathname.split('/')[1] || 'en');
+
+  const [t, setT] = useState(null);
 
   const [ships, setShips] = useState([]);
   const [shipParts, setShipParts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(ALL);
 
-  // page state per tab
   const [pageShips, setPageShips] = useState(1);
   const [pageParts, setPageParts] = useState(1);
 
   useEffect(() => {
-   
-    
+    // load dictionary client-side (this page is a client component)
+    (async () => {
+      const dict = await getDictionaryClient(locale);
+      setT(dict?.catalogue || {});
+    })();
+    setSelectedCategory(ALL);
+  }, [locale]);
+
+  useEffect(() => {
     async function fetchData() {
       const { data: catData } = await supabase.from('category').select('id, name');
       if (catData) setCategories(catData);
@@ -42,8 +52,12 @@ export default function Catalogue() {
         setShips(
           shipData.map((ship) => ({
             id: ship.id,
-            name: ship.ship_translations?.find((t) => t.language === 'en')?.title || ship.slug,
-            description: ship.ship_translations?.find((t) => t.language === 'en')?.description || '',
+            name:
+              ship.ship_translations?.find((tr) => tr.language === locale)?.title ||
+              ship.ship_translations?.find((tr) => tr.language === 'en')?.title ||
+              ship.slug,
+            description:
+              ship.ship_translations?.find((tr) => tr.language === locale)?.description || '',
             image: ship.ship_images?.[0]?.image_url || '/placeholder.jpg',
             scale: ship.scale || '',
             category: catData?.find((c) => c.id === ship.category_id)?.name || 'Uncategorized',
@@ -74,12 +88,9 @@ export default function Catalogue() {
       }
     }
     fetchData();
-  }, []);
+  }, [locale]);
 
-  const filterItems = (items, category) => {
-    if (category === 'All') return items;
-    return items.filter((item) => item.category === category);
-  };
+  const filterItems = (items, category) => (category === ALL ? items : items.filter((i) => i.category === category));
 
   const onCategoryClick = (cat) => {
     setSelectedCategory(cat);
@@ -89,31 +100,54 @@ export default function Catalogue() {
 
   const Paginator = ({ page, setPage, total }) => {
     const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    const prevLabel = t?.paginator?.prev || 'Prev';
+    const nextLabel = t?.paginator?.next || 'Next';
+    const pageLabel = (t?.paginator?.page || 'Page {current} / {total}')
+      .replace('{current}', String(page))
+      .replace('{total}', String(maxPage));
+  
+    // hide if only 1 page and you prefer no controls
+    if (maxPage <= 1) {
+      return (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <span className="text-gray-300 px-2">{pageLabel}</span>
+        </div>
+      );
+    }
+  
     return (
       <div className="flex items-center justify-center gap-2 mt-8">
         <button
           onClick={() => setPage(Math.max(1, page - 1))}
           className="px-3 py-2 rounded-md bg-gray-800 text-gray-200 disabled:opacity-40"
           disabled={page <= 1}
+          aria-label={prevLabel}
         >
-          Prev
+          {prevLabel}
         </button>
-        <span className="text-gray-300 px-2">Page {page} / {maxPage}</span>
+  
+        <span className="text-gray-300 px-2">{pageLabel}</span>
+  
         <button
           onClick={() => setPage(Math.min(maxPage, page + 1))}
           className="px-3 py-2 rounded-md bg-gray-800 text-gray-200 disabled:opacity-40"
           disabled={page >= maxPage}
+          aria-label={nextLabel}
         >
-          Next
+          {nextLabel}
         </button>
       </div>
     );
   };
+  
+
 
   const ItemGrid = ({ items, type, page }) => {
     const filtered = filterItems(items, selectedCategory);
     const start = (page - 1) * PAGE_SIZE;
     const pageItems = filtered.slice(start, start + PAGE_SIZE);
+  
+
 
     return (
       <>
@@ -121,85 +155,74 @@ export default function Catalogue() {
           {pageItems.map((item) => (
             <div
               key={item.id}
-              onClick={() => router.push(`/item/${item.id}?type=${type}`)}
+              onClick={() => router.push(`/${locale}/item/${item.id}?type=${type}`)}
               className="bg-gray-800/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
             >
               <div className="relative overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                <img src={item.image} alt={item.name} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
                 <div className="absolute top-4 left-4 flex items-center gap-2">
-                  {type === 'ship' ? (
-                    <Ship className="h-4 w-4 text-white" />
-                  ) : (
-                    <Wrench className="h-4 w-4 text-white" />
-                  )}
-                  <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {item.category}
-                  </span>
+                  {type === 'ship' ? <Ship className="h-4 w-4 text-white" /> : <Wrench className="h-4 w-4 text-white" />}
+                  <span className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium">{item.category}</span>
                 </div>
               </div>
 
               <div className="p-6">
                 <h3 className="text-xl font-bold text-white mb-2">{item.name}</h3>
                 <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-full font-medium transition-colors">
-                  View Details
+                  {t?.buttons?.view_details || 'View Details'}
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        <Paginator
-          page={page}
-          setPage={type === 'ship' ? setPageShips : setPageParts}
-          total={filtered.length}
-        />
+        <Paginator page={page} setPage={type === 'ship' ? setPageShips : setPageParts} total={filtered.length} />
       </>
     );
   };
 
   return (
     <div className="min-h-screen bg-gray-900">
+      {/* Header */}
       <div className="bg-gradient-to-r from-slate-900 to-gray-800 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Collection</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            {t?.title || 'Our Collection'}
+          </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Discover our meticulously crafted naval replicas — precision 3D printed and rich in detail.
+            {t?.subtitle || 'Discover our meticulously crafted naval replicas — precision 3D printed and rich in detail.'}
           </p>
         </div>
       </div>
 
+      {/* Tabs + Filters */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs defaultValue="ships" className="space-y-8">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-12">
             <TabsTrigger value="ships" className="flex items-center gap-2 text-base">
               <Ship className="h-4 w-4" />
-              Ships
+              {t?.tabs?.ships || 'Ships'}
             </TabsTrigger>
             <TabsTrigger value="parts" className="flex items-center gap-2 text-base">
               <Wrench className="h-4 w-4" />
-              Ship Parts
+              {t?.tabs?.parts || 'Ship Parts'}
             </TabsTrigger>
           </TabsList>
-
           <div className="flex flex-wrap gap-4 justify-center">
-            {['All', ...categories.map((c) => c.name)].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => onCategoryClick(cat)}
-                className={`px-6 py-2 rounded-full border-2 font-medium transition-colors ${
-                  selectedCategory === cat
-                    ? 'bg-slate-700 text-white border-gray-900'
-                    : 'border-slate-700 text-slate-300 hover:bg-grey-700 hover:text-white'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+    {[{ code: ALL, name: t?.filters?.all || 'All' }, ...categories].map((c) => (
+      <button
+        key={c.code ?? c.name}
+        onClick={() => onCategoryClick(c.code ?? c.name)}
+        className={`px-6 py-2 rounded-full border-2 font-medium transition-colors ${
+          selectedCategory === (c.code ?? c.name)
+            ? 'bg-slate-700 text-white border-gray-900'
+            : 'border-slate-700 text-slate-300 hover:bg-grey-700 hover:text-white'
+        }`}
+      >
+        {c.name}
+      </button>
+    ))}
+  </div>
 
           <TabsContent value="ships" className="space-y-8">
             <ItemGrid items={ships} type="ship" page={pageShips} />

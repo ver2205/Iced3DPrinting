@@ -9,7 +9,8 @@ const FeatureSection = ({
   imageUrl,
   imageAlt,
   reverse = false,
-  features = []
+  features = [],
+  ctaLabel
 }) => {
   const router = useRouter();
 
@@ -38,7 +39,7 @@ const FeatureSection = ({
             )}
 
             <button onClick={() => router.push('/process')} className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
-              Learn More
+              {ctaLabel}
             </button>
           </div>
 

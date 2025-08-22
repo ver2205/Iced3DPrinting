@@ -1,31 +1,48 @@
+// components/CallToAction.jsx
 'use client';
-import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const CallToAction = () => {
+export default function CallToAction({
+  title = '',
+  subtitle = '',
+  buttonPrimary = '',
+  buttonSecondary = '',
+  locale = 'en',
+}) {
   const router = useRouter();
 
   return (
-    <section className="py-20 bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-          Ready to Create Your Masterpiece?
-        </h2>
-        <p className="text-xl text-slate-200 mb-8 leading-relaxed">
-          Transform your vision into reality with our precision 3D printing technology.
-          Let's craft something extraordinary together.
+    <section className="py-16 bg-slate-900 text-center">
+      <h2 className="text-4xl md:text-5xl font-bold text-white">
+        {title}
+      </h2>
+
+      {subtitle && (
+        <p className="mt-4 text-lg md:text-xl text-gray-300">
+          {subtitle}
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button  onClick={() => router.push('/quote')} className="bg-white text-slate-800 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
-            Start Your Project
-          </button>
-          <button onClick={() => router.push('/catalogue')} className="border-2 border-white text-white hover:bg-white hover:text-slate-800 px-8 py-4 rounded-full text-lg font-medium transition-all duration-200">
-            View Gallery
-          </button>
+      )}
+
+      {(buttonPrimary || buttonSecondary) && (
+        <div className="mt-8 flex gap-4 justify-center">
+          {buttonPrimary && (
+            <button
+              onClick={() => router.push(`/${locale}/quote`)}
+              className="px-6 py-3 rounded-full bg-white text-slate-900 font-medium hover:bg-gray-200 transition"
+            >
+              {buttonPrimary}
+            </button>
+          )}
+          {buttonSecondary && (
+            <button
+              onClick={() => router.push(`/${locale}/catalogue`)}
+              className="px-6 py-3 rounded-full border border-white/40 text-white hover:bg-white/10 transition"
+            >
+              {buttonSecondary}
+            </button>
+          )}
         </div>
-      </div>
+      )}
     </section>
   );
-};
-
-export default CallToAction;
+}

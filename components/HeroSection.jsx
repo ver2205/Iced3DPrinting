@@ -2,7 +2,14 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const HeroSection = () => {
+const HeroSection = ({
+  locale = 'en',
+  tagline = '',
+  tagline2 = '',
+  intro = '',
+  viewCatalogueLabel = '',
+  requestQuoteLabel = ''
+}) => {
   const router = useRouter();
 
   return (
@@ -38,21 +45,20 @@ const HeroSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-              Luxury 3D
-              <span className="block text-slate-700">Printed Ships</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+             {tagline}
+              <span className="block text-slate-700">{tagline2}</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mt-6 leading-relaxed">
-              Crafting extraordinary maritime models with precision engineering and 
-              unparalleled attention to detail. Each vessel is a masterpiece of modern technology.
+            <p className="text-base md:text-xl text-gray-300 mt-6 leading-relaxed">
+              {intro}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button onClick={() => router.push('/catalogue')} className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
-                View Our Catalogue
+                {viewCatalogueLabel}
               </button>
               <button onClick={() => router.push('/quote')} className="border-2 border-gray-400 hover:border-white text-gray-300 hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:bg-white/5">
-                Request a Quote
+              {requestQuoteLabel}
               </button>
             </div>
           </div>

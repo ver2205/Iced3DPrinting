@@ -1,0 +1,213 @@
+{
+    "1": {
+      "tagline": "Uw schip. Uw droom. ",
+      "tagline2" : "Ons vakmanschap."
+    },
+    "2": {
+      "intro": "Bij ICED3D Printing draait alles om perfectie. We leveren hoogwaardige 3D-prints met behulp van de nieuwste technologie en de beste experts in het vakgebied. Elk project, groot of klein, is voor ons een missie waarin precisie, innovatie en vakmanschap samenkomen."
+    },
+    "buttons": {
+        "view_catalogue": "Bekijk onze catalogus",
+        "request_quote": "Offerte aanvragen",
+        "learn_more": "Lees meer",
+        "more_information": "Meer informatie"
+      },
+    "3": {
+      "our_story_title": "Ons verhaal"
+    },
+    "4": {
+      "our_story_body": "ICED3D Printing is ontstaan uit passie, precisie en vakmanschap. Oprichter Richard Pols groeide op in de wereld van de binnenvaart, als zoon van schipper Rien Pols. Vanaf jonge leeftijd had Richard een fascinatie voor ondernemen en modelbouw, waarbij oog voor detail altijd centraal stond. Wat begon als een hobby aan de werkbank, groeide uit tot een bedrijf dat de lat hoog legt in de wereld van 3D printing en modelbouw. Vandaag de dag combineren we diezelfde liefde voor perfectie met de nieuwste technologie en hoogwaardige materialen. Ons doel? Elk idee tot leven brengen met een afwerking die verwachtingen overtreft."
+    },
+    "5": {
+      "qualities_title": "Onze kwaliteiten:",
+      "qualities": [
+        "Oog voor detail | geen ontwerp is te klein of te complex.",
+        "Persoonlijk contact | we luisteren, denken mee en duidelijke communicatie.",
+        "Een team dat altijd een stap extra zet | wij stoppen pas als het écht goed is.",
+        "Klantvriendelijkheid | jouw tevredenheid staat voorop.",
+        "Hoogwaardige materialen | voor duurzame, sterke en professionele resultaten."
+      ],
+      "qualities_note": "Bij ICED3D Printing is elk project uniek, en behandelen we het alsof het ons eigen is."
+    },
+    "6": {
+      "steps_title": "Ontwerp je eigen schip in 5 stappen"
+    },
+    "7": {
+      "steps_intro": "Wij begeleiden u door het hele proces, van begin tot eind. Persoonlijk, overzichtelijk en met duidelijke communicatie. U ontvangt meerdere updates van het 3D-model, en wij gaan pas verder zodra u helemaal tevreden bent. Of u nu kiest voor een bestaand model uit onze catalogus of een volledig op maat gemaakt ontwerp wij zorgen dat het resultaat perfect aansluit bij uw wensen."
+    },
+    "8": {
+      "step1_title": "Model keuze",
+      "step1_desc": "Catalogus of maatwerk, de keuze is aan u"
+    },
+    "9": {
+      "step2_title": "Ontvang een offerte op maat",
+      "step2_desc": "U ontvangt een offerte met alle besproken details."
+    },
+    "10": {
+      "step3_title": "Updates van uw model",
+      "step3_desc": "Wij houden u op de hoogte met foto’s en 3D-weergaven van uw model."
+    },
+    "11": {
+      "step4_title": "Tijd om te 3D-printen!",
+      "step4_desc": "Wij printen uw model op basis van de 3D-ontwerpbesteanden in PLA en/of resin. (Klik op ‘Ons proces’ voor meer informatie over PLA en resin.)"
+    },
+    "12": {
+      "step5_title": "Zelf bouwen of laten bouwen — altijd met precisie",
+      "step5_desc": "Gaat u zelf assembleren? Wij sturen alle onderdelen, veilig verpakt in op maat gemaakte schuiminlays. Liever dat wij het monteren? Dan leveren wij de onderdelen direct aan een van onze vakbekwame bouwers."
+    },
+    "cta": {
+      "title": "Klaar om uw droomproject te realiseren?",
+      "subtitle": "Verander uw droom in werkelijkheid met onze precisieprinttechnologie. Laten we samen iets buitengewoons creëren.",
+      "buttonPrimary": "Offerte aanvragen",
+      "buttonSecondary": "Bekijk catalogus"
+    },
+    
+    "footer": {
+      "tagline": "Wij ontwerpen, 3D-printen en bouwen op maat gemaakte schepen, waarbij elk detail tot in perfectie wordt uitgevoerd.",
+      "links": {
+        "catalogue": "Catalogus",
+        "process": "Ons proces",
+        "contact": "Contact",
+        "request_quote": "Vraag een offerte aan"
+      },
+      "contact": {
+        "email": "contact@iced3dprinting.nl",
+        "phone": "0031-613457814",
+        "location": "Made en Drimmelen"
+      }
+    },
+    "process": {
+      "page_title": "Ons proces",
+      "intro": "Wij geloven dat elk project een uniek verhaal verdient. Van het eerste idee tot het moment dat u het eindresultaat in handen heeft — in 7 duidelijke stappen nemen wij u mee in ons proces.",
+    
+      "step1_inventory": {
+        "title": "Inventarisatie van uw schip",
+        "body": "Om zoveel mogelijk details te kunnen maken adviseren wij altijd een bezoek aan boord, waarbij wij uw schip fotograferen en opmeten. Indien dit niet mogelijk is, kunnen we ook werken met uw foto’s en referenties. Meer referenties zijn altijd welkom, zodat wij het meest realistische model kunnen maken en de kosten voorspelbaar blijven. Voor en na het bezoek ontvangt u een transparante prijsinschatting, zodat u altijd weet dat u nooit meer betaalt dan nodig is."
+      },
+    
+      "step2_design": {
+        "title": "3D tekenen van uw model",
+        "body": "Na het voltooien van de inventarisatie selecteren wij zorgvuldig de schaal en het detailniveau dat het beste past bij uw doelen en budget. Uw ontwerper stuurt u gedurende het proces minimaal drie voortgangsupdates.",
+        "updates": [
+          "Update 1: De eerste update betreft de romp, dek en woning(en).",
+          "Update 2: Na goedkeuring gaan we verder met grote onderdelen zoals boeg- en hekconstructies, details van de opbouw, ankerlieren en andere belangrijke elementen.",
+          "Update 3: Na uw goedkeuring maken we alle kleinere details — van bolders, relingen en masten tot navigatielampen en andere verfijnde onderdelen.",
+          "Wanneer de laatste update is goedgekeurd en u elk detail heeft bekeken, bereiden we de bestanden voor het 3D-printen voor, zodat elk onderdeel van uw model met precisie tot leven komt."
+        ]
+      },
+    
+      "step3_printing": {
+        "title": "3D printen van alle onderdelen",
+        "body": "Wanneer alle onderdelen als printbare bestanden zijn voorbereid, starten we met de productie. Standaard printen we in hoogwaardig PLA (Polylactic Acid), een sterk materiaal dat veel wordt gebruikt in de wereld van 3D-printen.",
+        "updates": [
+          "We printen ook in SLA (Stereolithografiehars), een vloeibare fotopolymeerhars die uithardt met UV-licht. SLA biedt extreem fijne, gladde details — ideaal voor kleine of zeer gedetailleerde onderdelen. SLA-onderdelen zijn duurder. Als u kiest voor een SLA-upgrade, bereiden we dit voor en nemen we het op in de offerte.",
+          "Alle onderdelen worden met optimale oriëntatie en ondersteuningsstructuren geprint om details te behouden en sterkte te garanderen. Indien u zelf assembleert, minimaliseren we waar mogelijk de nabehandeling van uw onderdelen en leveren we duidelijke montage-instructies.",
+          "Indien wij het model assembleren, voeren we het nodige schuur- en vulwerk uit wanneer het model niet volledig wordt geassembleerd."
+        ]
+      },
+    
+      "step4_post_processing": {
+        "title": "Het bewerken van de 3D prints",
+        "body": "Wanneer alle onderdelen geprint zijn, beginnen we met de nabewerking. Bij PLA-onderdelen worden de ondersteuningen verwijderd en worden oppervlakken waar nodig verfijnd. De zichtbare laaglijnen blijven minimaal dankzij onze nieuwste technologie.",
+        "updates": [
+          "SLA-geprinte onderdelen vereisen een meer uitgebreide nabewerking: we verwijderen de ondersteuningen, wassen de onderdelen in isopropylalcohol en laten ze volledig uitharden onder UV-licht. Daarna drogen ze nog een dag om het best mogelijke resultaat te bereiken."
+        ]
+      },
+    
+      "step5_quality_control": {
+        "title": "Kwaliteitscontrole",
+        "body": "Nadat alle geprinte onderdelen van ondersteuningen zijn ontdaan, gaan we over tot kwaliteitscontrole. Elk onderdeel wordt gecontroleerd op nauwkeurigheid, oppervlakteafwerking en sterkte. Eventuele afkeuringen worden opnieuw geprint."
+      },
+    
+      "step6_shipping": {
+        "title": "Verzending",
+        "body": "Alle onderdelen zijn nu klaar om verstuurd te worden. Om ervoor te zorgen dat alle geprinte onderdelen veilig en overzichtelijk blijven, verpakken we ze in op maat gemaakte foam-inlays. Wilt u een andere verzendmethode? Informeer naar de mogelijkheden. Als u ervoor heeft gekozen om het model door ons te laten afbouwen, sturen we de onderdelen direct naar de afbouwer."
+      },
+    
+      "step7_assembly": {
+        "title": "Afbouw Proces (indien van toepassing)",
+        "body": "Wanneer het model wordt afgebouwd door een van onze kwalitatieve afbouwers, wordt het professioneel geassembleerd, gespoten en afgewerkt tot museumkwaliteit. Zodra het model volledig is afgebouwd, wordt uw unieke project persoonlijk afgeleverd."
+      }
+    },
+    "catalogue": {
+      "title": "Ons Assortiment",
+      "subtitle": "Verken onze collectie van meesterlijk gebouwde schepen en gedetailleerd 3D-geprint scheepsbeslag.",
+      "tabs": {
+        "ships": "Schepen",
+        "parts": "Scheepsonderdelen"
+      },
+      "filters": {
+        "all": "Alle modellen"
+      },
+      "buttons": {
+        "view_details": "Meer Informatie"
+      },
+      "paginator": {
+        "prev": "Vorige",
+        "next": "Volgende",
+        "page": "Pagina {current} / {total}"
+      }
+    },
+    
+      "contact": {
+        "header": {
+          "title": "Contact & FAQ",
+          "subtitle": "Neem voor al uw vragen contact op met onze experts. Wij denken graag met u mee."
+        },
+        "form": {
+          "title": "Voor al uw vragen",
+          "first_name_label": "Voornaam",
+          "last_name_label": "Achternaam",
+          "email_label": "E-mailadres",
+          "message_label": "Waarmee kunnen wij u helpen?",
+          "message_placeholder": "Beschrijf uw vraag of verzoek…",
+          "submit": "Bericht verzenden"
+        },
+        "faq": {
+          "title": "FAQ",
+          "items": [
+            {
+              "q": "Ik zie soms dat SLA/resin onderdelen kromtrekken. Waarom is dit?",
+              "a": "Kromtrekken (warping) bij SLA/resin prints gebeurt soms doordat het materiaal tijdens of na het printen ongelijkmatig krimpt door het vacuüm-effect van elke geprinte laag. Wilt u dit proces zien? U bent altijd welkom bij ons op locatie."
+            },
+            {
+              "q": "Hoelang duurt een custom project van aanvraag tot levering?",
+              "a": "Elk project is uniek. De doorlooptijd hangt af van meerdere factoren: we meten aan boord (ligplaats en of het schip op de wal staat helpt), daarna koppelen we de juiste tekenaar (ca. 1,5–2 maanden). Na uw akkoord printen we en, indien van toepassing, starten we de afbouw (meestal 2–3 maanden afhankelijk van complexiteit)."
+            },
+            {
+              "q": "Waarom mogen schaalmodellen niet achter glas in direct zonlicht staan?",
+              "a": "Direct zonlicht achter glas werkt als een kas: warmte en UV laten kleuren vervagen en kunnen kunststof of resin vervormen, waardoor het model blijvend beschadigt."
+            },
+            {
+              "q": "Ontwerpen/3D-printen jullie ook modellen buiten de scheepvaart?",
+              "a": "Jazeker. Via samenwerkingen leveren we een breed scala aan producten (maquettes, prototypes, mallen, enz.). Neem gerust contact op."
+            },
+            {
+              "q": "Wat betekent het precies als een model RC-voorbereid is?",
+              "a": "Onze afbouwers zijn gespecialiseerd in RC (Radio Controlled): besturing voor varen, werkende verlichting, beweegbare stuurhut, enz. Vraag naar de mogelijkheden."
+            },
+            {
+              "q": "Kunnen jullie een model maken van een bestaand schip dat niet in de catalogus staat en niet mijn eigendom is?",
+              "a": "Soms. We kunnen werken vanaf tekeningen van zusterschepen en foto’s, maar zonder boordbezoek ontbreken vaak details. Soms wil de eigenaar geen reproductie. ICED3D bemiddelt regelmatig tussen eigenaar (of makelaar) en aanvrager—altijd het proberen waard."
+            },
+            {
+              "q": "Is een aanbetaling vereist? Hoe verlopen de betalingen?",
+              "a": "Ja. Bij akkoord vragen wij 1/3 aanbetaling om tekentijd te reserveren en op te starten. Na uw akkoord op het 3D-model volgt de tweede betaling en starten we het printen. Na het printen volgt de derde betaling en beginnen we met afbouw (indien van toepassing)."
+            },
+            {
+              "q": "Verzenden jullie internationaal?",
+              "a": "Ja. Voor volledig geprinte of afgebouwde modellen heeft persoonlijke levering de voorkeur. Afhalen bij ons kan ook."
+            },
+            {
+              "q": "Welke hulpmiddelen gebruik ik om geprinte modellen in topconditie te houden?",
+              "a": "We voorzien onderdelen van een man-vrouw verbinding voor recht lijmen. Gebruik PLA-lijm, vul naden (bijv. polyesterplamuur), schuur en breng een epoxylaag aan voor sterkte en UV-bestendigheid. Let op: warmte beïnvloedt kunststof altijd. Daarna primer en aflak."
+            }
+          ]
+        }
+      
+    }
+    
+
+    
+  }
+    

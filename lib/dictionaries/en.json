@@ -1,0 +1,217 @@
+{
+    "1": {
+      "tagline": "Your ship. Your story.",
+      "tagline2" : "Our craftmanship."
+    },
+    "2": {
+      "intro": "At ICED3D Printing, everything revolves around perfection. We deliver high quality 3D prints using the latest technology and the finest experts in the field. Every project, big or small, is a mission for us where precision, innovation, and craftsmanship come together."
+    },
+    "buttons": {
+        "view_catalogue": "View Our Catalogue",
+        "request_quote": "Request a Quote",
+        "learn_more": "Learn More",
+        "more_information": "More Information"
+      },
+        
+
+    "3": {
+      "our_story_title": "Our Story"
+    },
+    "4": {
+      "our_story_body": "At ICED3D Printing, everything we do is driven by passion, precision, and craftsmanship. Founder Richard Pols grew up immersed in the world of inland shipping as the son of skipper Rien Pols. From an early age, he was fascinated by engineering and model building always with an uncompromising eye for detail. What began as a hobby at a small workbench has evolved into a cutting-edge 3D printing company that sets the standard for quality in model building. Today, we blend that same dedication to perfection with the latest technology and premium-grade materials. Our mission? To turn any idea into reality with a flawless finish that exceeds expectations."
+    },
+    "5": {
+      "qualities_title": "What makes us unique:",
+      "qualities": [
+        "Unmatched attention to detail | No design is too small or too complex.",
+        "Personal approach | We listen, collaborate, and keep communication direct and clear.",
+        "Going the extra mile | We don’t stop until it’s truly perfect.",
+        "Customer-first mindset | Your satisfaction is always our priority.",
+        "Top-tier materials | For strong, durable, and professional results."
+      ],
+      "qualities_note": "At ICED3D Printing, every project is unique, and we treat each one as if it were our own."
+    },
+    "6": {
+      "steps_title": "Create your custom ship in 5 steps"
+    },
+    "7": {
+      "steps_intro": "We guide you through the entire process, from start to finish. Personal, clear, and well-structured communication is at the heart of what we do. You’ll receive multiple updates of the 3D model, and we only proceed once you are completely satisfied. Whether you choose an existing design from our catalogue or a fully custom-made model, we ensure the result perfectly matches your vision."
+    },
+    "8": {
+      "step1_title": "Ship selection",
+      "step1_desc": "Choose your vessel from our catalog or request a custom design."
+    },
+    "9": {
+      "step2_title": "Receive quote",
+      "step2_desc": "You receive a custom quote with all discussed details."
+    },
+    "10": {
+      "step3_title": "Updates of your model",
+      "step3_desc": "We’ll keep you updated with photos and 3D previews of your model."
+    },
+    "11": {
+      "step4_title": "Time to start 3D printing!",
+      "step4_desc": "We will print your model using the 3D design files in PLA and/or resin. (Click on ‘Our Process’ to learn more about PLA and resin.)"
+    },
+    "12": {
+      "step5_title": "Build it yourself or have it built — always with precision",
+      "step5_desc": "Assembling it yourself? We’ll send all parts, safely packed in custom foam inlays. Prefer us to assemble it? We’ll deliver the parts straight to one of our skilled builders."
+    },
+    
+    
+      "cta": {
+        "title": "Ready To Create Your Masterpiece?",
+        "subtitle": "Bring your vision to life with our precision printing technology. Together, we’ll create something extraordinary.",
+        "buttonPrimary": "Request a Quote",
+        "buttonSecondary": "Browse Catalogue"
+      },
+    
+    
+  
+    "footer": {
+      "tagline": "From design to construction: we create your custom ship with 3D printing technology and an eye for every detail.",
+      "links": {
+        "catalogue": "Catalogue",
+        "process": "Our Process",
+        "contact": "Contact",
+        "request_quote": "Request Qoute"
+      },
+      "contact": {
+        "email": "contact@iced3dprinting.nl",
+        "phone": "0031-613457814",
+        "location": "Made en Drimmelen"
+      }
+    },
+    "process": {
+      "page_title": "Our process",
+      "intro": "From the very first idea to the moment you hold the finished result in your hands – we believe every project deserves its own unique story. In 7 straightforward steps, we guide you through our journey together.",
+  
+      "step1_inventory": {
+        "title": "Inventory of your vessel",
+        "body": "To ensure the highest level of detail, we recommend an on-board visit where we photograph and measure your vessel in person. If that’s not possible, we can work with your photos and references. More references are always welcome, as they help us create the most realistic model and keep costs predictable. We provide a transparent price indication before and after the visit, so you can be sure you’ll never pay more than necessary."
+      },
+  
+      "step2_design": {
+        "title": "3D Design of Your Model",
+        "body": "After completing the inventory, we carefully select the design scale and level of detail that best suits your project’s goals and budget. Your designer will provide at least three progress updates.",
+        "updates": [
+          "Update 1: The initial stage focuses on the hull, deck, and superstructure(s).",
+          "Update 2: Once approved, we move on to major components such as the bow and stern construction, superstructure details, anchor winches, and other key features.",
+          "Update 3: After your approval, we create all the smaller details—from bollards, railings and masts to navigation lamps and other intricate elements.",
+          "When the final update is approved, and you’ve reviewed every detail, we will prepare the files for 3D printing, bringing every component of your model to life with precision."
+        ]
+      },
+  
+      "step3_printing": {
+        "title": "3D Printing of All Components",
+        "body": "Once we have prepared all parts as printable files, we move on to production. By default, we print in high-quality PLA (Polylactic Acid), a strong material widely used in the world of 3D printing.",
+        "updates": [
+          "We also print in SLA (Stereolithography resin), a liquid photopolymer resin cured with UV light. SLA offers extremely fine, smooth detail—ideal for smaller or highly detailed parts. SLA-printed parts are more expensive. If you choose an SLA upgrade, we will prepare and quote accordingly.",
+          "All parts are printed with optimal orientation and support structures to preserve detail and ensure strength. If the model is assembled by you, we’ll minimize post-processing on your parts where possible and will provide clear assembly guidance.",
+          "If the model is assembled by us, we will do the necessary sanding and filling work if the model is not being fully assembled."
+        ]
+      },
+  
+      "step4_post_processing": {
+        "title": "Post-processing 3D Prints",
+        "body": "Once all parts have been printed, we move on to post-processing. For PLA-printed parts, support structures are removed and surfaces are refined where needed. Layer lines remain minimal thanks to our latest technology.",
+        "updates": [
+          "SLA-printed parts require more extensive post-processing: we remove supports, wash the parts in isopropyl alcohol, and fully cure them under UV light. After this, they dry for an additional day to achieve the best possible result."
+        ]
+      },
+  
+      "step5_quality_control": {
+        "title": "Quality Control",
+        "body": "After all printed parts have been cleared of supports, we proceed with quality control. Every item is checked for accuracy, surface quality, and strength. If any are rejected, the defective printed parts will be reprinted."
+      },
+  
+      "step6_shipping": {
+        "title": "Shipping",
+        "body": "All parts are now ready to be shipped. To ensure that all printed parts remain safe and well organized, we pack them in custom foam inlays. Would you like a different shipping method? Ask about the possibilities. If you have chosen to have the model assembled by us, we will send the parts directly to the assembler."
+      },
+  
+      "step7_assembly": {
+        "title": "Assembly Process (if applicable)",
+        "body": "When the model is assembled by one of our skilled assemblers, it will be professionally assembled, painted, and finished to museum-quality standards. Once the model is fully assembled, your unique project will be personally delivered."
+      }
+    },
+    "catalogue": {
+      "title": "Our Collection",
+      "subtitle": "Explore our collection of masterfully crafted ships and detailed 3D-printed ship fittings",
+      "tabs": {
+        "ships": "Ships",
+        "parts": "Ship Parts"
+      },
+      "filters": {
+        "all": "All"
+      },
+      "buttons": {
+        "view_details": "View Details"
+      },
+      "paginator": {
+        "prev": "Prev",
+        "next": "Next",
+        "page": "Page {current} / {total}"
+      }
+    },
+    
+      "contact": {
+        "header": {
+          "title": "Contact & FAQ",
+          "subtitle": "For all your questions, please contact our experts. We are happy to think along with you."
+        },
+        "form": {
+          "title": "For all your questions",
+          "first_name_label": "First Name",
+          "last_name_label": "Last Name",
+          "email_label": "Email Address",
+          "message_label": "What can we do for you?",
+          "message_placeholder": "Tell us about your question or request…",
+          "submit": "Send Message"
+        },
+        "faq": {
+          "title": "FAQ",
+          "items": [
+            {
+              "q": "I sometimes notice that SLA/resin parts warp. Why is this?",
+              "a": "Warping in SLA/resin prints sometimes occurs because the print material shrinks unevenly during or after printing due to the vacuum effect created with each printed layer. If you’d like to see this process in action, you’re always welcome to visit our office."
+            },
+            {
+              "q": "How long does a custom project take from request to delivery?",
+              "a": "Every project is unique, so we can’t give a fixed final delivery date upfront. Timing depends on multiple factors: we measure onboard (location and whether the vessel is on land helps), then we match the right designer (about 1.5–2 months for detailed modeling). After your approval we print the model and, if applicable, start the assembly. Assembly typically takes 2–3 months depending on complexity."
+            },
+            {
+              "q": "Why shouldn’t scale models be placed behind glass in direct sunlight?",
+              "a": "Direct sunlight behind glass creates a greenhouse effect: heat and UV fade colors and can deform plastics/resin, permanently damaging the model."
+            },
+            {
+              "q": "Can you also design/3D print non-marine models?",
+              "a": "Yes. Through various partnerships we can deliver a wide range of products (maquettes, prototypes, molds, etc.). Contact us for details."
+            },
+            {
+              "q": "I often read that a model is RC-ready—what does that mean?",
+              "a": "Our assemblers specialize in RC (Radio Controlled) models: propulsion control, working lights, moving wheelhouse, etc. Ask us about the options."
+            },
+            {
+              "q": "Can you make a model of an existing vessel that’s not in your catalogue and not my property?",
+              "a": "Sometimes. We can work from drawings of sister ships and photos, but details may be missing without an onboard visit. In some cases the owner may not allow reproduction. We often mediate between the vessel’s owner (or broker) and the requester—always worth asking."
+            },
+            {
+              "q": "Do you require a deposit? How do payments work?",
+              "a": "Yes. We ask 1/3 upfront at acceptance to reserve designer time and start the project. After you approve the 3D model, the second payment is due and we begin printing. When printing is finished, the third payment follows and we start assembly (if applicable)."
+            },
+            {
+              "q": "Do you ship internationally?",
+              "a": "Yes, we do. For fully printed or assembled models we prefer personal delivery. You can also pick up your model or parts at our location."
+            },
+            {
+              "q": "What materials/tools keep printed models in top condition?",
+              "a": "We design male-female joints for straight alignment during gluing. Use PLA glue, then fill seams (polyester filler recommended). After sanding, coat PLA parts with epoxy for strength and UV resistance (note: heat always affects plastics). Then prime and paint."
+            }
+          ]
+        }
+      
+    }
+    
+    
+  }
