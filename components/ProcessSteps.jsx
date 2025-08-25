@@ -1,13 +1,27 @@
 'use client';
 import React from 'react';
 import { FileText, File, Check, Compass, Rocket } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter,usePathname } from 'next/navigation';
+import { getDictionaryClient } from '@/lib/getDictionaryClient';
+import { useEffect, useState } from 'react';
+
 
 const icons = [FileText, File, Check, Compass, Rocket];
 
 const ProcessSteps = ({ heading, intro, steps, moreInfoLabel }) => {
   const router = useRouter();
+  const pathname = usePathname() || '/en';
+  const locale = (pathname.split('/')[1] || 'en');
+  const [t, setT] = useState(null);
 
+  useEffect(() => {
+    // load dictionary client-side (this page is a client component)
+    (async () => {
+      const dict = await getDictionaryClient(locale);
+      setT(dict?.catalogue || {});
+    })();
+    
+  }, [locale]);
   return (
     <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,7 +61,7 @@ const ProcessSteps = ({ heading, intro, steps, moreInfoLabel }) => {
         {/* Button */}
         <div className="text-center mt-10">
           <button
-            onClick={() => router.push('/process')}
+            onClick={() => router.push(`/${locale}/process`)}
             className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-full text-base font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
           {moreInfoLabel}

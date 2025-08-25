@@ -36,7 +36,7 @@ export default function Footer({
 
             {/* Quick Links */}
             <div className="mx-auto md:mx-0">
-              <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+              <h3 className="text-white font-semibold mb-4"> {locale === 'nl' ? 'Snelle links' : 'Quick Links'}</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
                   <Link href={`/${locale}/catalogue`} className="hover:text-white transition-colors duration-200">

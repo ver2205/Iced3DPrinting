@@ -68,27 +68,29 @@ export default function CataloguePage() {
       const { data: partData } = await supabase
         .from('ship_part')
         .select(`
-          id, slug, height, width, length, description, category_id,
+          id, slug, height, width, length, article_number, name_en, name_nl, scale, category_id,
           ship_part_media(media_url, media_type, sort_order)
         `);
 
-      if (partData) {
-        setShipParts(
-          partData.map((part) => {
-            const imageMedia = part.ship_part_media?.find((m) => m.media_type === 'picture');
-            return {
-              id: part.id,
-              name: part.slug,
-              description: part.description || '',
-              image: imageMedia?.media_url || '/placeholder.jpg',
-              category: catData?.find((c) => c.id === part.category_id)?.name || 'Uncategorized',
-            };
-          })
-        );
+
+        if (partData) {
+          setShipParts(
+            partData.map((part) => {
+              const imageMedia = part.ship_part_media?.find((m) => m.media_type === 'picture');
+              return {
+                id: part.id,
+                name: locale === 'nl' ? part.name_nl : part.name_en,
+                description: part.article_number || '',
+                image: imageMedia?.media_url || '/placeholder.jpg',
+                scale: part.scale || '1:50',
+                category: catData?.find((c) => c.id === part.category_id)?.name || 'Uncategorized',
+              };
+            })
+          );
+        }
       }
-    }
-    fetchData();
-  }, [locale]);
+      fetchData();
+    }, [locale]);
 
   const filterItems = (items, category) => (category === ALL ? items : items.filter((i) => i.category === category));
 

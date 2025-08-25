@@ -211,6 +211,13 @@
           ]
         }
       
+    },
+    "specs": {
+      "length": "Length",
+      "width": "Width",
+      "height": "Height",
+      "scale": "Scale",
+      "article_number": "Article Number"
     }
     
     

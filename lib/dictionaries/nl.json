@@ -205,6 +205,13 @@
           ]
         }
       
+    },
+    "specs": {
+      "length": "Lengte",
+      "width": "Breedte",
+      "height": "Hoogte",
+      "scale": "Schaal",
+      "article_number": "Artikelnummer"
     }
     
 

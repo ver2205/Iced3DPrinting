@@ -54,7 +54,7 @@ const HeroSection = ({
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button onClick={() => router.push('/catalogue')} className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+              <button onClick={() => router.push(`/${locale}/catalogue`)} className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
                 {viewCatalogueLabel}
               </button>
               <button onClick={() => router.push('/quote')} className="border-2 border-gray-400 hover:border-white text-gray-300 hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:bg-white/5">
