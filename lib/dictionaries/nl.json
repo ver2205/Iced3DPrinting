@@ -212,7 +212,65 @@
       "height": "Hoogte",
       "scale": "Schaal",
       "article_number": "Artikelnummer"
-    }
+    },
+    
+      "quote": {
+        "steps": {
+          "select_ship": "Selecteer Schip",
+          "scale": "Schaal",
+          "contact": "Contact",
+          "summary": "Overzicht"
+        },
+        "titles": {
+          "select_ship": "Selecteer een model uit onze collectie of selecteer eigen ontwerp",
+          "select_ship_sub": "Selecteer een model uit onze collectie of maak een eigen ontwerp",
+          "search_ship": "Zoek een scheepsmodel",
+          "custom": "Eigen ontwerp",
+          "custom_details": "Eigen ontwerp details",
+          "custom_details_sub": "Vertel ons uw wensen",
+    
+          "extra_details": "Aanvullende details",
+          "extra_details_sub": "Hoe meer informatie, hoe realistischer het eind resultaat",
+          "scale_ex": "Kies uw schaal",
+          "scale_ex_sub": "Selecteer de perfecte grootte voor uw model",
+          "scale": "Gewenste Schaal",
+          "scale_sub": "Selecteer de gewenste schaal",
+    
+          "contact_title": "Contact gegevens",
+          "contact_sub": "Ga samen met ons het avontuur aan",
+    
+          "review_title": "Een overzicht van uw ingevulde informatie",
+          "review_sub": "Is alles ingevuld? Dan gaan we aan de slag voor u."
+        },
+        "fields": {
+          "ship_name": "Scheepsnaam",
+          "ship_name_ph": "Voer de naam van het schip in (laat het veld leeg als het schip niet bestaat)",
+          "rc": "Wilt u het model RC (Remote Controlled)?",
+          "build_off": "Wilt u dat ICED3D het model volledig afbouwt voor u? (Zie voor meer informatie de FAQ)",
+          "has_drawings": "Zijn er technische tekeningen aanwezig?",
+          "is_sailing": "Vaart het schip nog steeds?",
+          "has_pictures": "Zijn er foto’s beschikbaar van het schip?",
+          "case_cover": "Is een vitrine incl. houten plank gewenst?",
+          "full_name": "Volledige Naam",
+          "email": "E-mail Adres",
+          "phone": "Telefoonnummer",
+          "notes_label": "Extra Informatie",
+          "notes_placeholder": "Speciale wensen, materialen of details die u graag wil vermelden"
+        },
+        "review": {
+          "selected_ship": "Geselecteerde model"
+        },
+        "buttons": {
+          "previous": "Vorige",
+          "next": "Volgende",
+          "submit": "Aanvraag verzenden",
+          "submitting": "Verzenden…",
+          "yes": "Ja",
+          "no": "Nee"
+        }
+      }
+    
+    
     
 
     

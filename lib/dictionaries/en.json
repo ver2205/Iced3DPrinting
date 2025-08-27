@@ -218,7 +218,67 @@
       "height": "Height",
       "scale": "Scale",
       "article_number": "Article Number"
-    }
+    },
+    
+      "quote": {
+        "steps": {
+          "select_ship": "Select Ship",
+          "scale": "Scale",
+          "contact": "Contact Info",
+          "summary": "Quote Summary"
+        },
+        "titles": {
+          "select_ship": "Select a Ship model",
+          "select_ship_sub": "Choose from our collection or create a custom design",
+          "search_ship": "Search for a ship",
+          "custom" :"Custom Design",
+          "custom_details": "Custom Design Details",
+          "custom_details_sub": "Tell us about your vision",
+    
+          "extra_details": "Additional Details",
+          "extra_details_sub": "Help us create the perfect model",
+          "scale_ex_sub" : "Select the perfect size for your model",
+          "scale_ex": "Choose Your Scale",
+          "scale": "Preferred Scale",
+          "scale_sub": "Select preferred scale",
+    
+          "contact_title": "Contact Information",
+          "contact_sub": "Let's get your project started",
+    
+          "review_title": "Review Your Request",
+          "review_sub": "Everything looks good? Let's set sail!"
+        },
+        "fields": {
+          "ship_name": "Ship name",
+          "ship_name_ph": "Enter the name of the ship (leave it blank if the ship doesn’t exist)",
+          "rc": "Do you want it RC (Remote Controlled)?",
+          "build_off": "Do you want the model to be built off complete? (See the FAQ for more information)",
+          "has_drawings": "Do you have Technical drawings?",
+          "is_sailing": "Is the ship still operational?",
+          "has_pictures": "Are there pictures available of the ship?",
+          "case_cover": "Do you prefer a Case cover incl. wooden plank?",
+          "full_name": "Full Name",
+          "email": "Email Address",
+          "phone": "Phone Number",
+          "notes_label": "Additional Notes",
+          "notes_placeholder": "Any specific requirements, materials, or details you’d like to discuss"
+        },
+        "review": {
+          "selected_ship": "Selected ship"
+          
+        },
+        "buttons": {
+          "previous": "Previous",
+          "next": "Next",
+          "submit": "Launch Request",
+          "submitting": "Launching...",
+          "yes": "Yes",
+          "no": "No"
+          
+        }
+      }
+    
+    
     
     
   }

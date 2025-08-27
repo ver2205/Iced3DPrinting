@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import {
@@ -13,13 +13,16 @@ import {
 } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-
+import { usePathname } from 'next/navigation';
+import { getDictionaryClient } from '@/lib/getDictionaryClient';
 // Supabase init
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
-
+function get(obj, path, fallback = '') {
+  return path.split('.').reduce((o, k) => (o && o[k] != null ? o[k] : undefined), obj) ?? fallback;
+}
 const RequestQuote = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [successMessage, setSuccessMessage] = useState('');
@@ -34,7 +37,6 @@ const RequestQuote = () => {
         hasRC: '',
         hasPictures: '',
         isSailing: '',
-        buildOff: '',
         caseCover: ''
       },
       contactInfo: {
@@ -47,6 +49,20 @@ const RequestQuote = () => {
     const [latestShips, setLatestShips] = useState([]);
     const [allShips, setAllShips] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const pathname = usePathname() || '/en';
+    const locale = pathname.split('/')[1] || 'en';
+  
+    // translation state
+    const [t, setT] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
+        const dict = await getDictionaryClient(locale);
+        // assuming your namespace is `quote` (you said “setT(dict?.quote || {})”)
+        setT(dict?.quote || {});
+      })();
+    }, [locale]);
+
 
     useEffect(() => {
       const fetchShips = async () => {
@@ -80,26 +96,32 @@ const RequestQuote = () => {
 
     
     const getSteps = () => {
-      const baseSteps = [
-        { number: 1, title: "Select Ship", description: "Choose a base model or custom design",icon: <Ship size={20} /> ,  illustration: "🚢"}
+      const base = [
+        {
+          number: 1,
+          title: t?.steps?.select_ship,
+          description: t?.titles?.select_ship_sub,
+          icon: <Ship size={20} />,
+          illustration: "🚢",
+        },
       ];
       if (formData.selectedShip === "Custom Design") {
         return [
-          ...baseSteps,
-          { number: 2, title: "Custom Details", description: "Select preferred scale", icon: <Ruler size={20} />,  illustration: "📐" },
-          { number: 3, title: "Custom Details", description: "Answer design questions", icon: <Puzzle size={20} />,  illustration: "⚙️" },
-          { number: 4, title: "Contact Info", description: "Your contact details", icon: <User size={20} />,  illustration: "👤" },
-          { number: 5, title: "Summary", description: "Review and submit", icon: <ClipboardList size={20} />, illustration: "📋" }
-        ];
-      } else {
-        return [
-          ...baseSteps,
-          { number: 2, title: "Scale", description: "Select preferred scale", icon: <Ruler size={20} /> ,  illustration: "📐"},
-          { number: 3, title: "Contact Info", description: "Your contact details", icon: <User size={20} />,  illustration: "👤" },
-          { number: 4, title: "Summary", description: "Review and submit", icon: <ClipboardList size={20} />, illustration: "📋" }
+          ...base,
+          { number: 2, title: t?.titles?.custom, description: t?.titles?.scale, icon: <Ruler size={20} />, illustration: "📐" },
+          { number: 3, title: t?.titles?.custom, description: t?.titles?.extra_details, icon: <Puzzle size={20} />, illustration: "⚙️" },
+          { number: 4, title: t?.steps?.contact, description: t?.titles?.contact_sub, icon: <User size={20} />, illustration: "👤" },
+          { number: 5, title: t?.steps?.summary, description: t?.titles?.review_sub, icon: <ClipboardList size={20} />, illustration: "📋" },
         ];
       }
+      return [
+        ...base,
+        { number: 2, title: t?.steps?.scale, description: t?.titles?.scale_sub, icon: <Ruler size={20} />, illustration: "📐" },
+        { number: 3, title: t?.steps?.contact, description: t?.titles?.contact_sub, icon: <User size={20} />, illustration: "👤" },
+        { number: 4, title: t?.steps?.summary, description: t?.titles?.review_sub, icon: <ClipboardList size={20} />, illustration: "📋" },
+      ];
     };
+    
     const steps = getSteps();
     const maxSteps = steps.length;
     const nextStep = () => {
@@ -226,8 +248,8 @@ const RequestQuote = () => {
         <div className="flex justify-center mb-4">
   <Ship className="text-slate-400" size={48} />
 </div>
-          <h2 className="text-3xl font-bold text-white mb-4">Select a Ship Model</h2>
-          <p className="text-gray-300 text-lg">Choose from our collection or create a custom design</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.select_ship}</h2>
+          <p className="text-gray-300 text-lg">{t?.titles?.select_ship_sub}</p>
         </div>
     
           {/* Search bar */}
@@ -236,7 +258,7 @@ const RequestQuote = () => {
               type="text"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              placeholder="Search for a ship..."
+              placeholder={t?.titles?.search_ship}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
             />
             {searchTerm && (
@@ -301,10 +323,10 @@ const RequestQuote = () => {
               <div className="w-full h-40 bg-gray-700/50 rounded-lg mb-4 flex items-center justify-center">
               <div className="flex flex-col items-center text-gray-300">
                 <Puzzle size={28} className="mb-2" />
-                <span className="text-lg">Custom Design</span>
+                <span className="text-lg">{t?.titles?.custom}</span>
               </div>
               </div>
-              <h3 className="text-xl font-semibold text-white text-center">Custom Design</h3>
+              <h3 className="text-xl font-semibold text-white text-center">{t?.titles?.custom}</h3>
             </div>
             
           </div>
@@ -317,10 +339,10 @@ const RequestQuote = () => {
       <div className="animate-fade-in">
       <div className="text-center mb-12">
       <div className="flex justify-center mb-4">
-  <Ruler className="text-slate-400" size={48} />
-</div>
-        <h2 className="text-3xl font-bold text-white mb-4">Choose Your Scale</h2>
-        <p className="text-gray-300 text-lg">Select the perfect size for your model</p>
+        <Ruler className="text-slate-400" size={48} />
+      </div>
+        <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.scale_ex}</h2>
+        <p className="text-gray-300 text-lg">{t?.titles?.scale_ex}</p>
       </div>
       
       <div className="max-w-2xl mx-auto">
@@ -354,25 +376,25 @@ const RequestQuote = () => {
         <div className="flex justify-center mb-4">
           <Ruler className="text-slate-400" size={48} />
         </div>         
-          <h2 className="text-3xl font-bold text-white mb-4">Custom Design Details</h2>
-          <p className="text-gray-300 text-lg">Tell us about your vision</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.custom_details}</h2>
+          <p className="text-gray-300 text-lg">{t?.titles?.custom_details_sub}</p>
         </div>
   
         <div className="max-w-2xl mx-auto space-y-8">
           <div className="animate-slide-in-right">
-            <label className="block text-gray-300 mb-3 text-lg font-medium">Ship Name</label>
+            <label className="block text-gray-300 mb-3 text-lg font-medium">{t?.fields?.ship_name}</label>
             <input
               type="text"
               value={formData.customDesign.shipName}
               onChange={(e) => updateFormData('customDesign', 'shipName', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800/70 border border-gray-600 rounded-xl text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
-              placeholder="Enter the name of your ship..."
+              placeholder={t?.fields?.ship_name_ph}
             />
           </div>
   
           {[
-            ['hasRC', 'Do you want it to have RC (remote controlled)?'],
-            ['buildOff', 'Do you want it to be built off?'],
+            ['hasRC', t?.fields?.rc],
+            ['buildOff', t?.fields?.build_off],
           ].map(([key, label], index) => {
             const value = formData.customDesign[key];
             
@@ -387,7 +409,7 @@ const RequestQuote = () => {
             value === 'yes' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
           }`}
         >
-          Yes
+           {t?.buttons?.yes}
         </div>
 
         {/* NO option */}
@@ -397,7 +419,7 @@ const RequestQuote = () => {
             value === 'no' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
           } border-l border-gray-600`}
         >
-          No
+          {t?.buttons?.no}
         </div>
                 </div>
               </div>
@@ -405,13 +427,13 @@ const RequestQuote = () => {
           })}
           
           <div className="animate-slide-in-right" style={{ animationDelay: '600ms' }}>
-            <label className="block text-gray-300 mb-3 text-lg font-medium">Preferred Scale</label>
+            <label className="block text-gray-300 mb-3 text-lg font-medium">{t?.titles?.scale}</label>
             <select
               value={formData.scale}
               onChange={(e) => updateFormData(null, 'scale', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800/70 border border-gray-600 rounded-xl text-white focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
             >
-              <option value="">Select scale</option>
+              <option value="">{t?.titles?.scale_sub}</option>
               <option value="1:50">1:50</option>
               <option value="1:75">1:75</option>
               <option value="1:100">1:100</option>
@@ -429,15 +451,15 @@ const RequestQuote = () => {
         <div className="flex justify-center mb-4">
           <Puzzle className="text-slate-400" size={48} />
         </div>         
-          <h2 className="text-3xl font-bold text-white mb-4">Additional Details</h2>
-          <p className="text-gray-300 text-lg">Help us create the perfect model</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.extra_details}</h2>
+          <p className="text-gray-300 text-lg">{t?.titles?.extra_details_sub}</p>
         </div>          
          <div className="max-w-2xl mx-auto space-y-6">
                 {[
-          ['hasDrawings', 'Do you have technical drawings?'],
-          ['isSailing', 'Is the ship still sailing?'],
-          ['hasPictures', 'Are there pictures available?'],
-          ['caseCover', 'Do you want a case cover?']
+          ['hasDrawings', t?.fields?.has_drawings],
+          ['isSailing', t?.fields?.is_sailing],
+          ['hasPictures', t?.fields?.has_pictures],
+          ['caseCover', t?.fields?.case_cover]
         ].map(([key, label]) => {
           const value = formData.customDesign[key];
 
@@ -452,7 +474,7 @@ const RequestQuote = () => {
             value === 'yes' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
           }`}
         >
-          Yes
+           {t?.buttons?.yes}
         </div>
 
         {/* NO option */}
@@ -462,7 +484,7 @@ const RequestQuote = () => {
             value === 'no' ? 'bg-gray-600 text-white font-medium' : 'bg-gray-800 hover:bg-gray-700'
           } border-l border-gray-600`}
         >
-          No
+           {t?.buttons?.no}
         </div>
       </div>
     </div>
@@ -481,23 +503,23 @@ const RequestQuote = () => {
         <div className="flex justify-center mb-4">
           <User className="text-slate-400" size={48} />
         </div>         
-          <h2 className="text-3xl font-bold text-white mb-4">Contact Information</h2>
-          <p className="text-gray-300 text-lg">Let's get your project started</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.contact_title}</h2>
+          <p className="text-gray-300 text-lg">{t?.titles?.contact_sub}</p>
         </div>
         <div className="max-w-2xl mx-auto space-y-6">
           <div>
-            <label className="block text-gray-300 mb-2">Full Name *</label>
+            <label className="block text-gray-300 mb-2">{t?.fields?.full_name} *</label>
             <input
               type="text"
               value={formData.contactInfo.name}
               onChange={(e) => updateFormData('contactInfo', 'name', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
-              placeholder="Your full name"
+              placeholder={t?.fields?.full_name}
               required
             />
           </div>
           <div>
-            <label className="block text-gray-300 mb-2">Email Address *</label>
+            <label className="block text-gray-300 mb-2">{t?.fields?.email} *</label>
             <input
               type="email"
               value={formData.contactInfo.email}
@@ -508,7 +530,7 @@ const RequestQuote = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-300 mb-2">Phone Number</label>
+            <label className="block text-gray-300 mb-2">{t?.fields?.phone}</label>
             <input
               type="tel"
               value={formData.contactInfo.phone}
@@ -518,13 +540,13 @@ const RequestQuote = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-300 mb-2">Additional Notes</label>
+            <label className="block text-gray-300 mb-2">{t?.fields?.notes_label}</label>
             <textarea
               value={formData.additionalNotes}
               onChange={(e) => updateFormData(null, 'additionalNotes', e.target.value)}
               rows={4}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none resize-none"
-              placeholder="Any specific requirements, materials, or details you'd like to include..."
+              placeholder={t?.fields?.notes_placeholder}
             />
           </div>
         </div>
@@ -539,15 +561,15 @@ const RequestQuote = () => {
         <div className="flex justify-center mb-4">
           <ClipboardList className="text-slate-400" size={48} />
         </div> 
-          <h2 className="text-3xl font-bold text-white mb-4">Review Your Request</h2>
-          <p className="text-gray-300 text-lg">Everything looks good? Let's set sail!</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t?.titles?.review_title}</h2>
+          <p className="text-gray-300 text-lg">{t?.titles?.review_sub}</p>
         </div>
   
         <div className="max-w-2xl mx-auto bg-gradient-to-br from-gray-800/70 to-gray-900/70 rounded-2xl p-8 space-y-6 border border-gray-600 backdrop-blur-sm">
           <div className="animate-slide-in-right">
             <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
               <Ship className="mr-2" size={20} />
-              Selected Ship
+              {t?.review?.selected_ship}
             </h3>
             <p className="text-gray-300 pl-7">{formData.selectedShip || 'Not selected'}</p>
           </div>
@@ -555,7 +577,7 @@ const RequestQuote = () => {
           <div className="animate-slide-in-right" style={{ animationDelay: '150ms' }}>
             <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
               <Ruler className="mr-2" size={20} />
-              Scale
+              {t?.steps?.scale}
             </h3>
             <p className="text-gray-300 pl-7">{formData.scale || 'Not specified'}</p>
           </div>
@@ -563,12 +585,12 @@ const RequestQuote = () => {
           <div className="animate-slide-in-right" style={{ animationDelay: '300ms' }}>
             <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
               <User className="mr-2" size={20} />
-              Contact Information
+            {t?.titles?.contact_title}
             </h3>
             <div className="text-gray-300 space-y-1 pl-7">
-              <p>Name: {formData.contactInfo.name}</p>
-              <p>Email: {formData.contactInfo.email}</p>
-              <p>Phone: {formData.contactInfo.phone || 'Not provided'}</p>
+              <p>{t?.fields?.full_name}: {formData.contactInfo.name}</p>
+              <p>{t?.fields.email}: {formData.contactInfo.email}</p>
+              <p>{t?.fields?.phone}: {formData.contactInfo.phone || 'Not provided'}</p>
             </div>
           </div>
           
@@ -576,7 +598,7 @@ const RequestQuote = () => {
             <div className="animate-slide-in-right" style={{ animationDelay: '450ms' }}>
               <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
                 <FileText className="mr-2" size={20} />
-                Additional Notes
+                {t?.fields?.notes_label}
               </h3>
               <p className="text-gray-300 pl-7">{formData.additionalNotes}</p>
             </div>
@@ -595,7 +617,7 @@ const RequestQuote = () => {
         )}
           {/* Progress Steps */}
           <div className="mb-12">
-          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8">
+          <div className="flex justify-center items-center gap-4 sm:gap-8 flex-nowrap overflow-x-auto">
               {steps.map((step) => (
                 <div key={step.number} className="flex items-center">
                   <div className={`flex flex-col items-center ${step.number <= currentStep ? 'text-white' : 'text-gray-500'}`}>
@@ -661,7 +683,7 @@ const RequestQuote = () => {
               }`}
             >
               <ChevronLeft className="mr-2" size={20} />
-              Previous
+              {t?.buttons?.previous}
             </button>
   
             {currentStep < maxSteps ? (
@@ -669,7 +691,7 @@ const RequestQuote = () => {
               onClick={nextStep}
               className="flex items-center bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
             >
-              Next
+              {t?.buttons?.next}
               <ChevronRight className="ml-2" size={20} />
             </button>
           ) : (
@@ -683,10 +705,10 @@ const RequestQuote = () => {
                  {loading ? (
                 <div className="flex items-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Launching...
+                  {t?.buttons?.submitting}
                 </div>
               ) : (
-                'Launch Request'
+                t?.buttons?.submit
               )}
             </button>
             )}
