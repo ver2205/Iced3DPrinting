@@ -41,7 +41,7 @@ const FeatureSection = ({
               {description}
             </p>
             
-            {features.length > 0 && (
+            {/* {features.length > 0 && (
               <ul className="space-y-3">
                 {features.map((feature, index) => (
                   <li key={index} className="flex items-center text-gray-300">
@@ -50,7 +50,7 @@ const FeatureSection = ({
                   </li>
                 ))}
               </ul>
-            )}
+            )} */}
 
             <button onClick={() => router.push(`/${locale}/process`)} className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
               {ctaLabel}
