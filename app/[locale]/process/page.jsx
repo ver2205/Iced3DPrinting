@@ -27,7 +27,7 @@ export default async function ProcessPage({ params }) {
       title: P.step2_design?.title,
       description: [P.step2_design?.body, ...(P.step2_design?.updates || [])].filter(Boolean).join('\n\n'),
       image:
-        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/2.jpg',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/2.jpeg',
       reverse: true,
     },
     {
@@ -35,7 +35,7 @@ export default async function ProcessPage({ params }) {
       title: P.step3_printing?.title,
       description: [P.step3_printing?.body, ...(P.step3_printing?.updates || [])].filter(Boolean).join('\n\n'),
       image:
-        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/3.jpg',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/3.png',
     },
     {
       step: '04',
