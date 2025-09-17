@@ -31,7 +31,7 @@ export default async function HomePage({ params }) {
         description={t['4']?.our_story_body} // 4
         features={t['5']?.qualities || []} // 5 (list)
         note={t['5']?.qualities_note} // 5 (note under list)
-        imageUrl='https://images.unsplash.com/photo-1540946485063-a40da27545f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+        imageUrl='https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/home1.jpg'
         imageAlt='Ship Design and Engineering'
         ctaLabel={t.buttons?.learn_more}
         ctaHref={`/${locale}/process`}

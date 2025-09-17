@@ -20,14 +20,14 @@ export default async function ProcessPage({ params }) {
       title: P.step1_inventory?.title,
       description: P.step1_inventory?.body,
       image:
-        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/1.jpg',
     },
     {
       step: '02',
       title: P.step2_design?.title,
       description: [P.step2_design?.body, ...(P.step2_design?.updates || [])].filter(Boolean).join('\n\n'),
       image:
-        'https://images.unsplash.com/photo-1704283860614-803aa8be7993?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/2.jpg',
       reverse: true,
     },
     {
@@ -35,14 +35,14 @@ export default async function ProcessPage({ params }) {
       title: P.step3_printing?.title,
       description: [P.step3_printing?.body, ...(P.step3_printing?.updates || [])].filter(Boolean).join('\n\n'),
       image:
-        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/3.jpg',
     },
     {
       step: '04',
       title: P.step4_post_processing?.title,
       description: [P.step4_post_processing?.body, ...(P.step4_post_processing?.updates || [])].filter(Boolean).join('\n\n'),
       image:
-        'https://images.unsplash.com/photo-1608112169461-48616144c894?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/4.jpg',
       reverse: true,
     },
     {
@@ -50,7 +50,7 @@ export default async function ProcessPage({ params }) {
       title: P.step5_quality_control?.title,
       description: P.step5_quality_control?.body,
       image:
-        'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/5.jpg',
     },
     {
       step: '06',
@@ -58,7 +58,7 @@ export default async function ProcessPage({ params }) {
       description: P.step6_shipping?.body,
       reverse: true,
       image:
-      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/6.jpg',
     },
     {
       step: '07',
@@ -66,7 +66,7 @@ export default async function ProcessPage({ params }) {
       description: P.step7_assembly?.body,
       
       image:
-        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0',
+        'https://pub-6210d406bed545ddaeb6b12199553fc4.r2.dev/7.jpg',
     },
   ];
 
