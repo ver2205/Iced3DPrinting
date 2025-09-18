@@ -44,7 +44,7 @@ export default async function HomePage({ params }) {
           { title: t['9']?.step2_title, desc: t['9']?.step2_desc },
           { title: t['10']?.step3_title, desc: t['10']?.step3_desc },
           { title: t['11']?.step4_title, desc: t['11']?.step4_desc },
-          { title: t['12']?.step5_title },
+          { title: t['12']?.step5_title, desc: t['12']?.step5_desc },
         ]}
         moreInfoLabel={t.buttons?.more_information}
       />

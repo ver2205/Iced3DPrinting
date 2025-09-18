@@ -18,7 +18,7 @@ const ProcessSection = ({ step, title, description, image, reverse = false }) =>
 
       {/* Image */}
       <div className={`relative ${reverse ? 'lg:col-start-1' : ''}`}>
-        <div className="relative z-10">
+      <div className="relative z-10 w-full h-[350px] rounded-2xl overflow-hidden shadow-2xl">
           <img
             src={image}
             alt={title}

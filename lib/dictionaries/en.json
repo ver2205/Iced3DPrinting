@@ -54,8 +54,8 @@
       "step4_desc": "We will print your model using the 3D design files in PLA and/or resin. (Click on ‘Our Process’ to learn more about PLA and resin.)"
     },
     "12": {
-      "step5_title": "Build it yourself or have it built — always with precision",
-      "step5_desc": "Assembling it yourself? We’ll send all parts, safely packed in custom foam inlays. Prefer us to assemble it? We’ll deliver the parts straight to one of our skilled builders."
+      "step5_title": "Build it yourself or have it built",
+      "step5_desc": "Besides our state of the art finished scale models, we also offer our DIY-kits."
     },
     
     
@@ -78,7 +78,7 @@
       },
       "contact": {
         "email": "contact@iced3dprinting.nl",
-        "phone": "0031-613457814",
+        "phone": "+31 (0)162 79 6125",
         "location": "Made en Drimmelen"
       }
     },
@@ -87,18 +87,18 @@
       "intro": "From the very first idea to the moment you hold the finished result in your hands – we believe every project deserves its own unique story. In 7 straightforward steps, we guide you through our journey together.",
   
       "step1_inventory": {
-        "title": "Inventory of your vessel",
+        "title": "Onboard Visit",
         "body": "To ensure the highest level of detail, we recommend an on-board visit where we photograph and measure your vessel in person. If that’s not possible, we can work with your photos and references. More references are always welcome, as they help us create the most realistic model and keep costs predictable. We provide a transparent price indication before and after the visit, so you can be sure you’ll never pay more than necessary."
       },
   
       "step2_design": {
         "title": "3D Design of Your Model",
-        "body": "After completing the inventory, we carefully select the design scale and level of detail that best suits your project’s goals and budget. Your designer will provide at least three progress updates.",
+        "body": "In our approval workflow, we guide you through three key checkpoints. In the process  of transforming all  data into a digital 3D model, you’ll have three opportunities to review and approve the progress.",
         "updates": [
-          "Update 1: The initial stage focuses on the hull, deck, and superstructure(s).",
-          "Update 2: Once approved, we move on to major components such as the bow and stern construction, superstructure details, anchor winches, and other key features.",
-          "Update 3: After your approval, we create all the smaller details—from bollards, railings and masts to navigation lamps and other intricate elements.",
-          "When the final update is approved, and you’ve reviewed every detail, we will prepare the files for 3D printing, bringing every component of your model to life with precision."
+          "Checkpoint 1: You’ll see the initial model focusing on the hull shape, deck(s), bulwark and superstructure.", 
+          "Checkpoint 2: We refine major components, such as winches, deck cranes, hatch coamings and the wheelhouse.",    
+          "Checkpoint 3: Finally, you’ll approve all fine fittings and details, including—but not limited to—stairways, railings, doors, hatches, windows, bollards, side lights, masts, radars, and hull markings. names and logo.", 
+          "Once everything is approved at each stage, we move forward confidently to the next step, ensuring that the final 3D print is exactly what you envisioned." 
         ]
       },
   

@@ -52,8 +52,8 @@
       "step4_desc": "Wij printen uw model op basis van de 3D-ontwerpbesteanden in PLA en/of resin. (Klik op ‘Ons proces’ voor meer informatie over PLA en resin.)"
     },
     "12": {
-      "step5_title": "Zelf bouwen of laten bouwen — altijd met precisie",
-      "step5_desc": "Gaat u zelf assembleren? Wij sturen alle onderdelen, veilig verpakt in op maat gemaakte schuiminlays. Liever dat wij het monteren? Dan leveren wij de onderdelen direct aan een van onze vakbekwame bouwers."
+      "step5_title": "Zelf bouwen of laten bouwen",
+      "step5_desc": "Naast onze museumwaardige afgebouwde schaalmodellen bieden ij ook bouwpakketten aan."
     },
     "cta": {
       "title": "Klaar om uw droomproject te realiseren?",
@@ -72,7 +72,7 @@
       },
       "contact": {
         "email": "contact@iced3dprinting.nl",
-        "phone": "0031-613457814",
+        "phone": "+31 (0)162 79 6125",
         "location": "Made en Drimmelen"
       }
     },
@@ -81,18 +81,18 @@
       "intro": "Wij geloven dat elk project een uniek verhaal verdient. Van het eerste idee tot het moment dat u het eindresultaat in handen heeft — in 7 duidelijke stappen nemen wij u mee in ons proces.",
     
       "step1_inventory": {
-        "title": "Inventarisatie van uw schip",
+        "title": "Bezoek aan boord",
         "body": "Om zoveel mogelijk details te kunnen maken adviseren wij altijd een bezoek aan boord, waarbij wij uw schip fotograferen en opmeten. Indien dit niet mogelijk is, kunnen we ook werken met uw foto’s en referenties. Meer referenties zijn altijd welkom, zodat wij het meest realistische model kunnen maken en de kosten voorspelbaar blijven. Voor en na het bezoek ontvangt u een transparante prijsinschatting, zodat u altijd weet dat u nooit meer betaalt dan nodig is."
       },
     
       "step2_design": {
         "title": "3D tekenen van uw model",
-        "body": "Na het voltooien van de inventarisatie selecteren wij zorgvuldig de schaal en het detailniveau dat het beste past bij uw doelen en budget. Uw ontwerper stuurt u gedurende het proces minimaal drie voortgangsupdates.",
+        "body": "Tijdens het omzetten van alle data naar een digitaal 3D-model krijgt u drie momenten om de voortgang te beoordelen en goed te keuren.",
         "updates": [
-          "Update 1: De eerste update betreft de romp, dek en woning(en).",
-          "Update 2: Na goedkeuring gaan we verder met grote onderdelen zoals boeg- en hekconstructies, details van de opbouw, ankerlieren en andere belangrijke elementen.",
-          "Update 3: Na uw goedkeuring maken we alle kleinere details — van bolders, relingen en masten tot navigatielampen en andere verfijnde onderdelen.",
-          "Wanneer de laatste update is goedgekeurd en u elk detail heeft bekeken, bereiden we de bestanden voor het 3D-printen voor, zodat elk onderdeel van uw model met precisie tot leven komt."
+          "Checkpoint 1: U ziet het eerste model met de nadruk op de romp, het/de dek(ken), de verschansing en de opbouw. ",
+          "Checkpoint 2: We werken de hoofdcomponenten uit, zoals lieren, dekkranen, luikhoofden en de stuurhut. ",
+          "Checkpoint 3: Tot slot keurt u alle fijne details en afwerkingen goed, waaronder – maar niet beperkt tot – trappen, relingen, deuren, luiken, ramen, bolders, zijlichten, masten, radars, rompmarkeringen, namen en logo’s. ",
+          "Zodra elke fase is goedgekeurd, gaan we met vertrouwen verder naar de volgende stap, zodat de uiteindelijke 3D-print precies aansluit bij uw visie. "
         ]
       },
     

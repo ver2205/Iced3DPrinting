@@ -347,7 +347,7 @@ const RequestQuote = () => {
       
       <div className="max-w-2xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {['1:50', '1:75', '1:100', '1:150', 'custom'].map((scale, index) => (
+          {['1:50', '1:75', '1:100', 'custom'].map((scale, index) => (
             <div
               key={scale}
               onClick={() => updateFormData(null, 'scale', scale)}
@@ -437,7 +437,7 @@ const RequestQuote = () => {
               <option value="1:50">1:50</option>
               <option value="1:75">1:75</option>
               <option value="1:100">1:100</option>
-              <option value="1:150">1:150</option>
+              
               <option value="custom">Custom Scale</option>
             </select>
           </div>
@@ -536,7 +536,7 @@ const RequestQuote = () => {
               value={formData.contactInfo.phone}
               onChange={(e) => updateFormData('contactInfo', 'phone', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
-              placeholder="+1 (555) 123-4567"
+              placeholder="+31 (0) 12 3456789 "
             />
           </div>
           <div>
