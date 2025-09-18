@@ -69,14 +69,11 @@ const ItemDetail = ({ item }) => {
 
               {/* For parts: show Article Number */}
               {!isShip && item.articleNumber && (
+                <div>
                 <p className="text-lg text-gray-400">
                   {locale === 'nl' ? 'Artikelnummer ' : 'Article Number'} <span className="text-white font-semibold">{item.articleNumber}</span>
                 </p>
-              )}
-            </div>
-
-            {/* Specifications */}
-            <div className="bg-gray-800/50 rounded-2xl p-6">
+                 <div className="bg-gray-800/50 rounded-2xl p-6">
               <h3 className="text-2xl font-bold text-white mb-4">
               {locale === 'nl' ? 'Specificaties' : 'Specifications'}
 
@@ -91,8 +88,14 @@ const ItemDetail = ({ item }) => {
                 ))}
               </div>
             </div>
+            </div>
+              )}
+            </div>
 
-            {/* Features – only ships */}
+            {/* Specifications */}
+           
+
+            {/* Features – only ships
             {isShip && item.features?.length > 0 && (
               <div>
                 <h3 className="text-2xl font-bold text-white mb-4">Features</h3>
@@ -105,7 +108,7 @@ const ItemDetail = ({ item }) => {
                   ))}
                 </ul>
               </div>
-            )}
+            )} */}
 
             {/* CTA */}
             <div className="border-t border-gray-700 pt-8">
@@ -121,17 +124,17 @@ const ItemDetail = ({ item }) => {
                   <div className="flex-1 flex flex-col items-center">
                     <p className="text-gray-400 text-sm mb-2">
                     {locale === 'nl'
-                        ? 'U wordt doorgestuurd naar onze partnerwinkel'
-                        : 'You’ll be redirected to our partner store'}
+                        ? 'Wilt u een andere schaal? Neem gerust contact met ons op.'
+                        : 'If you want a different scale, please contact us.'}
                     </p>
-                    <a
+                    {/* <a
                       href={item.purchase_url || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full text-center border-2 border-gray-400 hover:border-white text-gray-300 hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:bg-blue-500/10"
                     >
                       {locale === 'nl' ? 'Koop nu' : 'Buy Now'}
-                    </a>
+                    </a> */}
                   </div>
                 )}
               </div>

@@ -268,6 +268,12 @@
           "yes": "Ja",
           "no": "Nee"
         }
+      },
+      "nav": {
+        "catalogue": "Catalogus",
+        "process": "Ons proces",
+        "contact": "Contact",
+        "quote": "Offerte aanvragen"
       }
     
     

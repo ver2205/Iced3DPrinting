@@ -16,7 +16,13 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <>
       <Suspense fallback={null}>
-        <Navbar />
+        <Navbar
+          locale={locale}
+          catalogue={t.nav?.catalogue}
+          process={t.nav?.process}
+          contact={t.nav?.contact}
+          quote={t.nav?.quote}
+        />
       </Suspense>
       <Suspense fallback={null}>
         <main className='min-h-screen'>{children}</main>

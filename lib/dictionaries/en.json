@@ -276,6 +276,12 @@
           "no": "No"
           
         }
+      },
+      "nav": {
+        "catalogue": "Catalogue",
+        "process": "Our Process",
+        "contact": "Contact",
+        "quote": "Request a Quote"
       }
     
     

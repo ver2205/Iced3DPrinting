@@ -41,54 +41,70 @@ export default function CataloguePage() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data: catData } = await supabase.from('category').select('id, name');
-      if (catData) setCategories(catData);
-
+      let catList = [];
+    
+      const { data: catRaw } = await supabase
+        .from('category')
+        .select('id, name, name_en, name_nl');
+    
+      if (catRaw) {
+        catList = catRaw.map((c) => ({
+          id: c.id,
+          code: c.name, // stable key for filtering
+          name: locale === 'nl' ? c.name_nl : c.name_en, // translated
+        }));
+        setCategories(catList);
+      }
+    
       const { data: shipData } = await supabase
         .from('ship')
         .select(`id, slug, scale, category_id, ship_images(image_url), ship_translations(language, title, description)`);
-
+    
       if (shipData) {
         setShips(
-          shipData.map((ship) => ({
-            id: ship.id,
-            name:
-              ship.ship_translations?.find((tr) => tr.language === locale)?.title ||
-              ship.ship_translations?.find((tr) => tr.language === 'en')?.title ||
-              ship.slug,
-            description:
-              ship.ship_translations?.find((tr) => tr.language === locale)?.description || '',
-            image: ship.ship_images?.[0]?.image_url || '/placeholder.jpg',
-            scale: ship.scale || '',
-            category: catData?.find((c) => c.id === ship.category_id)?.name || 'Uncategorized',
-          }))
+          shipData.map((ship) => {
+            const cat = catList.find((c) => c.id === ship.category_id);
+            return {
+              id: ship.id,
+              name:
+                ship.ship_translations?.find((tr) => tr.language === locale)?.title ||
+                ship.ship_translations?.find((tr) => tr.language === 'en')?.title ||
+                ship.slug,
+              description:
+                ship.ship_translations?.find((tr) => tr.language === locale)?.description || '',
+              image: ship.ship_images?.[0]?.image_url || '/placeholder.jpg',
+              scale: ship.scale || '',
+              category: cat?.name || (locale === 'nl' ? 'Ongecategoriseerd' : 'Uncategorized'),
+            };
+          })
         );
       }
-
+    
       const { data: partData } = await supabase
         .from('ship_part')
         .select(`
           id, slug, height, width, length, article_number, name_en, name_nl, scale, category_id,
           ship_part_media(media_url, media_type, sort_order)
         `);
-
-
-        if (partData) {
-          setShipParts(
-            partData.map((part) => {
-              const imageMedia = part.ship_part_media?.find((m) => m.media_type === 'picture');
-              return {
-                id: part.id,
-                name: locale === 'nl' ? part.name_nl : part.name_en,
-                description: part.article_number || '',
-                image: imageMedia?.media_url || '/placeholder.jpg',
-                scale: part.scale || '1:50',
-                category: catData?.find((c) => c.id === part.category_id)?.name || 'Uncategorized',
-              };
-            })
-          );
-        }
+    
+      if (partData) {
+        setShipParts(
+          partData.map((part) => {
+            const imageMedia = part.ship_part_media?.find((m) => m.media_type === 'picture');
+            const cat = catList.find((c) => c.id === part.category_id);
+            return {
+              id: part.id,
+              name: locale === 'nl' ? part.name_nl : part.name_en,
+              description: part.article_number || '',
+              image: imageMedia?.media_url || '/placeholder.jpg',
+              scale: part.scale || '1:50',
+              category: cat?.name || (locale === 'nl' ? 'Ongecategoriseerd' : 'Uncategorized'),
+            };
+          })
+        );
       }
+    }
+    
       fetchData();
     }, [locale]);
 

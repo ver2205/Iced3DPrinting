@@ -69,12 +69,12 @@ export default function ShipPage() {
               height: `${data.height} m`,
               scale: data.scale || '1:100',
             },
-            features: [
-              'Hand-finished premium materials',
-              'Museum-quality detailing',
-              'Historically accurate design',
-              'Custom display base included',
-            ],
+            // features: [
+            //   'Hand-finished premium materials',
+            //   'Museum-quality detailing',
+            //   'Historically accurate design',
+            //   'Custom display base included',
+            // ],
             availability: 'Made to order - send us request quote for price',
           });
         }
@@ -108,9 +108,9 @@ export default function ShipPage() {
             articleNumber: data.article_number,
             media,
             specs: {
-              length: `${data.length} m`,
-              width: `${data.width} m`,
-              height: `${data.height} m`,
+              length: `${data.length} mm`,
+              width: `${data.width} mm`,
+              height: `${data.height} mm`,
               scale: data.scale || '1:50',
             },
           });
