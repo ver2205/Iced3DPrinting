@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Iced3DPrinting',
-  description: 'Luxury 3D Printed Ships',
+  description: '3D Printed Ships',
 };
 
 export default async function LocaleLayout({ children, params }) {

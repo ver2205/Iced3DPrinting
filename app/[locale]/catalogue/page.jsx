@@ -75,6 +75,7 @@ export default function CataloguePage() {
               image: ship.ship_images?.[0]?.image_url || '/placeholder.jpg',
               scale: ship.scale || '',
               category: cat?.name || (locale === 'nl' ? 'Ongecategoriseerd' : 'Uncategorized'),
+              categoryCode: cat?.code,
             };
           })
         );
@@ -99,6 +100,7 @@ export default function CataloguePage() {
               image: imageMedia?.media_url || '/placeholder.jpg',
               scale: part.scale || '1:50',
               category: cat?.name || (locale === 'nl' ? 'Ongecategoriseerd' : 'Uncategorized'),
+              categoryCode: cat?.code,
             };
           })
         );
@@ -108,13 +110,20 @@ export default function CataloguePage() {
       fetchData();
     }, [locale]);
 
-  const filterItems = (items, category) => (category === ALL ? items : items.filter((i) => i.category === category));
+const filterItems = (items, categoryCode) =>
+  categoryCode === ALL ? items : items.filter((i) => i.categoryCode === categoryCode);
 
-  const onCategoryClick = (cat) => {
-    setSelectedCategory(cat);
-    setPageShips(1);
-    setPageParts(1);
-  };
+const onCategoryClick = (code) => {
+  setSelectedCategory(code);
+  setPageShips(1);
+  setPageParts(1);
+};
+
+  // const onCategoryClick = (cat) => {
+  //   setSelectedCategory(cat);
+  //   setPageShips(1);
+  //   setPageParts(1);
+  // };
 
   const Paginator = ({ page, setPage, total }) => {
     const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -229,10 +238,10 @@ export default function CataloguePage() {
           <div className="flex flex-wrap gap-4 justify-center">
     {[{ code: ALL, name: t?.filters?.all || 'All' }, ...categories].map((c) => (
       <button
-        key={c.code ?? c.name}
-        onClick={() => onCategoryClick(c.code ?? c.name)}
+        key={c.code}
+        onClick={() => onCategoryClick(c.code)}
         className={`px-6 py-2 rounded-full border-2 font-medium transition-colors ${
-          selectedCategory === (c.code ?? c.name)
+          selectedCategory === (c.code)
             ? 'bg-slate-700 text-white border-gray-900'
             : 'border-slate-700 text-slate-300 hover:bg-grey-700 hover:text-white'
         }`}

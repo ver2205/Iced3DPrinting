@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Iced3DPrinting',
-  description: 'Luxury 3D Printed Ships',
+  description: '3D Printed Ships',
 };
 
 export default function RootLayout({ children }) {
