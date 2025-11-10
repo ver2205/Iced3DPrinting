@@ -8,7 +8,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
-const ADMIN_PASSWORD = 'ICEDADMIN2025';  // Or your chosen password
+const ADMIN_PASSWORD = 'WEBICED3D';  
 
 const Admin = () => {
   const [quotes, setQuotes] = useState([]);
