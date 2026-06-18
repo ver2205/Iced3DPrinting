@@ -148,6 +148,7 @@ const Admin = () => {
         <th className="p-2 text-left">Ship Model</th>
         <th className="p-2 text-left">Customer</th>
         <th className="p-2 text-left">Email</th>
+        <th className="p-2 text-left">Phone</th>
         <th className="p-2 text-left">Scale</th>
         <th className="p-2 text-left">Date</th>
         <th className="p-2 text-left">Status</th>
@@ -162,6 +163,7 @@ const Admin = () => {
           <td className="p-2">{quote.selected_ship}</td>
           <td className="p-2">{quote.name}</td>
           <td className="p-2">{quote.email}</td>
+          <td className="p-2">{quote.phone || 'N/A'}</td>
           <td className="p-2">{quote.scale || 'N/A'}</td>
           <td className="p-2">{formatDate(quote.created_at)}</td>
           <td className="p-2">
@@ -202,6 +204,7 @@ const Admin = () => {
         <th className="p-2 text-left">Ship Model</th>
         <th className="p-2 text-left">Customer</th>
         <th className="p-2 text-left">Email</th>
+        <th className="p-2 text-left">Phone</th>
         <th className="p-2 text-left">Scale</th>
         <th className="p-2 text-left">Date</th>
         <th className="p-2 text-left">Note</th>
@@ -215,6 +218,7 @@ const Admin = () => {
           <td className="p-2">{quote.selected_ship}</td>
           <td className="p-2">{quote.name}</td>
           <td className="p-2">{quote.email}</td>
+          <td className="p-2">{quote.phone || 'N/A'}</td>
           <td className="p-2">{quote.scale || 'N/A'}</td>
           <td className="p-2">{formatDate(quote.created_at)}</td>
           <td className="p-2">{quote.notes || 'N/A'}</td>

@@ -193,6 +193,7 @@ const RequestQuote = () => {
             scale: formData.scale || null,
             name: formData.contactInfo.name,
             email: formData.contactInfo.email,
+            phone: formData.contactInfo.phone || null,  
             notes: formData.additionalNotes || null,
             custom_ship_name:          isCustom ? formData.customDesign.shipName      || null : null,
             has_technical_draws: isCustom ? formData.customDesign.hasDrawings   === 'yes' : null,
