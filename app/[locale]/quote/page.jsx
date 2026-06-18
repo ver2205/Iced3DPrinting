@@ -28,6 +28,7 @@ const RequestQuote = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
+      honeypot: '', 
       selectedShip: '',
       scale: '',
       customDesign: {
@@ -168,7 +169,7 @@ const RequestQuote = () => {
     }, [successMessage]);
 
     const handleSubmit = async () => {
-      
+      if (formData.honeypot) return;
       // Basic validation
       if (!formData.contactInfo.name || !formData.contactInfo.email) {
        
@@ -504,7 +505,17 @@ const RequestQuote = () => {
     );
 
     const renderContactStep = () => (
+      
       <div>
+        <div style={{ position: 'absolute', left: '-9999px', opacity: 0 }} aria-hidden="true">
+        <input
+          type="text"
+          value={formData.honeypot}
+          onChange={(e) => updateFormData(null, 'honeypot', e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
         <div className="text-center mb-12">
         <div className="flex justify-center mb-4">
           <User className="text-slate-400" size={48} />
