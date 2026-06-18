@@ -179,6 +179,11 @@ const RequestQuote = () => {
       setLoading(true);
       const isCustom = formData.selectedShip === 'Custom Design';
 
+      if (!formData.contactInfo.name || !formData.contactInfo.email || !formData.contactInfo.phone) {
+        setSuccessMessage('Please provide your name, email, and phone number.');
+        return;
+      }
+
       // Insert into Supabase
       const { data, error } = await supabase
         .from('quote_requests')
@@ -537,6 +542,7 @@ const RequestQuote = () => {
               onChange={(e) => updateFormData('contactInfo', 'phone', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
               placeholder="+31 (0) 12 3456789 "
+              required
             />
           </div>
           <div>
