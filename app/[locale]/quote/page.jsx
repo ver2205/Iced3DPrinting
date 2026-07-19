@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import Script from 'next/script';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import {
@@ -50,6 +51,9 @@ const RequestQuote = () => {
     const [latestShips, setLatestShips] = useState([]);
     const [allShips, setAllShips] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+
+    const recaptchaRef = useRef(null);
+    const [recaptchaWidgetId, setRecaptchaWidgetId] = useState(null);
     const pathname = usePathname() || '/en';
     const locale = pathname.split('/')[1] || 'en';
   
@@ -168,48 +172,74 @@ const RequestQuote = () => {
       }
     }, [successMessage]);
 
-    const handleSubmit = async () => {
+    const submitWithTokenRef = useRef(() => {});
+
+    useEffect(() => {
+      window.onRecaptchaLoad = () => {
+        if (recaptchaRef.current) {
+          const id = window.grecaptcha.render(recaptchaRef.current, {
+            sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+            size: 'invisible',
+            badge: 'inline',
+            callback: (token) => submitWithTokenRef.current(token),
+          });
+          setRecaptchaWidgetId(id);
+        }
+      };
+      return () => {
+        delete window.onRecaptchaLoad;
+      };
+    }, []);
+
+    const requestSubmit = () => {
       if (formData.honeypot) return;
-      // Basic validation
-      if (!formData.contactInfo.name || !formData.contactInfo.email) {
-       
-        setSuccessMessage('Please provide your name and email.');
-
-        return;
-      }
-      setLoading(true);
-      const isCustom = formData.selectedShip === 'Custom Design';
-
       if (!formData.contactInfo.name || !formData.contactInfo.email || !formData.contactInfo.phone) {
         setSuccessMessage('Please provide your name, email, and phone number.');
         return;
       }
+      if (recaptchaWidgetId === null || !window.grecaptcha) {
+        setSuccessMessage('Verification is still loading, please try again in a moment.');
+        return;
+      }
+      setLoading(true);
+      window.grecaptcha.execute(recaptchaWidgetId);
+    };
 
-      // Insert into Supabase
-      const { data, error } = await supabase
-        .from('quote_requests')
-        .insert([
-          {
-            selected_ship: formData.selectedShip,
-            scale: formData.scale || null,
-            name: formData.contactInfo.name,
-            email: formData.contactInfo.email,
-            phone: formData.contactInfo.phone || null,  
-            notes: formData.additionalNotes || null,
-            custom_ship_name:          isCustom ? formData.customDesign.shipName      || null : null,
-            has_technical_draws: isCustom ? formData.customDesign.hasDrawings   === 'yes' : null,
-            is_still_sailing:       isCustom ? formData.customDesign.isSailing     === 'yes' : null,
-            has_photos:             isCustom ? formData.customDesign.hasPictures   === 'yes' : null,
-            rc_model:               isCustom ? formData.customDesign.hasRC         === 'yes' : null,
-            build_ready:            isCustom ? formData.customDesign.buildOff      === 'yes' : null,
-            case_cover:             isCustom ? formData.customDesign.caseCover     === 'yes' : null
-          }
-        ]);
+    const submitWithToken = async (token) => {
+      const isCustom = formData.selectedShip === 'Custom Design';
+
+      const res = await fetch('/api/quote-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token,
+          honeypot: formData.honeypot,
+          selected_ship: formData.selectedShip,
+          scale: formData.scale || null,
+          name: formData.contactInfo.name,
+          email: formData.contactInfo.email,
+          phone: formData.contactInfo.phone || null,
+          notes: formData.additionalNotes || null,
+          custom_ship_name: isCustom ? formData.customDesign.shipName || null : null,
+          has_technical_draws: isCustom ? formData.customDesign.hasDrawings : null,
+          is_still_sailing: isCustom ? formData.customDesign.isSailing : null,
+          has_photos: isCustom ? formData.customDesign.hasPictures : null,
+          rc_model: isCustom ? formData.customDesign.hasRC : null,
+          build_ready: isCustom ? formData.customDesign.buildOff : null,
+          case_cover: isCustom ? formData.customDesign.caseCover : null,
+        }),
+      });
+
+      window.grecaptcha.reset(recaptchaWidgetId);
+      const { error } = await res.json();
+
+      if (!error) {
         confetti({
           particleCount: 150,
           spread: 70,
           origin: { y: 0.6 },
         });
+      }
       if (error) {
         console.error("Submission error:", error);
         setSuccessMessage('Something went wrong. Please try again.');
@@ -244,7 +274,11 @@ const RequestQuote = () => {
       setLoading(false);
 
     };
-    
+
+    useEffect(() => {
+      submitWithTokenRef.current = submitWithToken;
+    });
+
     // Scale selector for EXISTING ships
 
   
@@ -507,9 +541,10 @@ const RequestQuote = () => {
     const renderContactStep = () => (
       
       <div>
-        <div style={{ position: 'absolute', left: '-9999px', opacity: 0 }} aria-hidden="true">
+        <div style={{ display: 'none' }} aria-hidden="true">
         <input
           type="text"
+          name="quote_extra_field"
           value={formData.honeypot}
           onChange={(e) => updateFormData(null, 'honeypot', e.target.value)}
           tabIndex={-1}
@@ -547,7 +582,7 @@ const RequestQuote = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-300 mb-2">{t?.fields?.phone}</label>
+            <label className="block text-gray-300 mb-2">{t?.fields?.phone} *</label>
             <input
               type="tel"
               value={formData.contactInfo.phone}
@@ -627,6 +662,10 @@ const RequestQuote = () => {
   
     return (
       <div className="min-h-screen bg-gray-900">
+        <Script
+          src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
+          strategy="afterInteractive"
+        />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {successMessage && (
           <div className="fixed top-16 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 text-center px-4 py-2 rounded-lg shadow-lg max-w-sm w-auto z-50">
@@ -689,6 +728,8 @@ const RequestQuote = () => {
   </AnimatePresence>
           </div>
   
+          <div ref={recaptchaRef} className="flex justify-end mb-4" />
+
           {/* Navigation Buttons */}
           <div className="flex justify-between">
             <button
@@ -714,7 +755,7 @@ const RequestQuote = () => {
             </button>
           ) : (
             <button
-              onClick={handleSubmit}
+              onClick={requestSubmit}
               disabled={loading}
               className={`bg-slate-700 hover:bg-slate-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 shadow-xl hover:shadow-2xl ${
                 loading ? 'opacity-50 cursor-not-allowed' : ''

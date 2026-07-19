@@ -1,13 +1,7 @@
 'use client';
-import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { getDictionaryClient } from '@/lib/getDictionaryClient';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
 
 export default function Contact() {
   const pathname = usePathname() || '/en';
@@ -27,6 +21,7 @@ export default function Contact() {
   const [categories, setCategories] = useState([]);
 
   const [formData, setFormData] = useState({
+    honeypot: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -35,19 +30,23 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { error } = await supabase.from('quote_requests').insert([{
-      name: `${formData.firstName} ${formData.lastName}`.trim(),
-      email: formData.email,
-      selected_ship: null,         // no ship type on this page
-      notes: formData.details,
-      status: 'Received'
-    }]);
+    const res = await fetch('/api/contact-requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        honeypot: formData.honeypot,
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        notes: formData.details,
+      }),
+    });
+    const { error } = await res.json();
     if (error) {
       console.error(error);
       alert('There was an error submitting your request. Please try again.');
     } else {
       alert('Your message has been sent successfully!');
-      setFormData({ firstName: '', lastName: '', email: '', details: '' });
+      setFormData({ honeypot: '', firstName: '', lastName: '', email: '', details: '' });
     }
   };
 
@@ -76,6 +75,16 @@ export default function Contact() {
             </h2>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
+              <div style={{ display: 'none' }} aria-hidden="true">
+                <input
+                  type="text"
+                  name="contact_extra_field"
+                  value={formData.honeypot}
+                  onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">

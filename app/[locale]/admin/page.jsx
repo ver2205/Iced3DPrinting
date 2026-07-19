@@ -1,76 +1,67 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-
-// Init Supabase
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-const ADMIN_PASSWORD = 'WEBICED3D';  
 
 const Admin = () => {
   const [quotes, setQuotes] = useState([]);
   const [authorized, setAuthorized] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const [passwordInput, setPasswordInput] = useState('');
   const [filter, setFilter] = useState('custom'); // 'all' | 'custom' | 'existing'
 
   useEffect(() => {
-    const savedAuth = localStorage.getItem('admin_auth');
-    if (savedAuth === ADMIN_PASSWORD) {
-      setAuthorized(true);
-      fetchQuotes();
-    }
+    fetchQuotes();
   }, []);
 
-  const handleLogin = () => {
-    if (passwordInput === ADMIN_PASSWORD) {
-      localStorage.setItem('admin_auth', ADMIN_PASSWORD);
-      setAuthorized(true);
+  const handleLogin = async () => {
+    const res = await fetch('/api/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: passwordInput }),
+    });
+
+    if (res.ok) {
+      setPasswordInput('');
       fetchQuotes();
     } else {
       alert('Incorrect password');
     }
   };
 
-  useEffect(() => {
-    fetchQuotes();
-  }, []);
-
   const fetchQuotes = async () => {
+    const res = await fetch('/api/admin-quotes');
 
-    const { data, error } = await supabase
-      .from('quote_requests')
-      .select('*')
-      .order('created_at', { ascending: false });
+    if (res.status === 401) {
+      setAuthorized(false);
+      setCheckingAuth(false);
+      return;
+    }
 
+    const { data, error } = await res.json();
     if (error) {
       console.error('Error fetching quotes:', error);
     } else {
-      const withStatus = data.map(q => ({
-        ...q,
-        status: q.status || 'Received'
-      }));
-      setQuotes(withStatus);
+      setAuthorized(true);
+      setQuotes(data.map(q => ({ ...q, status: q.status || 'Received' })));
     }
+    setCheckingAuth(false);
   };
+
   const filteredQuotes = quotes.filter(q => {
     if (filter === 'custom') return q.selected_ship === 'Custom Design';
     if (filter === 'existing') return q.selected_ship !== 'Custom Design';
     return true;
   });
-  
-  const handleStatusChange = async (quoteId, newStatus) => {
-    console.log(`Updating quote ${quoteId} to status ${newStatus}`);
-    
-    const { error } = await supabase
-      .from('quote_requests')
-      .update({ status: newStatus })
-      .eq('id', quoteId);
 
-    if (error) {
-      console.error('Failed to update status:', error.message, error.details);
+  const handleStatusChange = async (quoteId, newStatus) => {
+    const res = await fetch('/api/admin-quotes', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: quoteId, status: newStatus }),
+    });
+
+    if (!res.ok) {
+      console.error('Failed to update status');
       alert('Failed to update status');
     } else {
       setQuotes(prev =>
@@ -85,6 +76,10 @@ const Admin = () => {
 
 
   
+  if (checkingAuth) {
+    return <div className="min-h-screen bg-gray-900" />;
+  }
+
   if (!authorized) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
