@@ -130,6 +130,14 @@ const RequestQuote = () => {
     const steps = getSteps();
     const maxSteps = steps.length;
     const nextStep = () => {
+      const contactStep = formData.selectedShip === 'Custom Design' ? 4 : 3;
+      if (currentStep === contactStep) {
+        if (!formData.contactInfo.name || !formData.contactInfo.email || !formData.contactInfo.phone) {
+          setSuccessMessage('Please provide your name, email, and phone number.');
+          return;
+        }
+        setSuccessMessage('');
+      }
       if (currentStep < maxSteps) setCurrentStep(currentStep + 1);
     };
   
@@ -589,6 +597,8 @@ const RequestQuote = () => {
               onChange={(e) => updateFormData('contactInfo', 'phone', e.target.value)}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-slate-400 focus:outline-none"
               placeholder="+31 (0) 12 3456789 "
+              autoComplete="off"
+              onPaste={(e) => e.preventDefault()}
               required
             />
           </div>
